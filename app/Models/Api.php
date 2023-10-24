@@ -34,4 +34,29 @@ class Api extends Model
 
         return null;
     }
+
+    public static function getSerieDetails($id)
+    {
+        $apiKey = env('API_KEY');
+        $url = env('API_URL');
+
+        $response = Http::withHeaders([
+            'Authorization' => $apiKey,
+        ])->get($url . "/tv/" . $id);
+
+        $jsonData = json_decode($response);
+
+        if ($jsonData) {
+            $serie = new Serie();
+
+            $serie->id = $jsonData->id;
+            $serie->nom = $jsonData->name;
+            $serie->date_sortie = $jsonData->first_air_date;
+            $serie->urlImage = $jsonData->poster_path;
+
+            return $serie;
+        }
+
+        return null;
+    }
 }
