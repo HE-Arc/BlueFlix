@@ -22,11 +22,17 @@
             </button>
           </h2>
           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-            @foreach ($list->films as $film)
+            @if ($list->films->isEmpty())
+                <div class="accordion-body">
+                    No movies in this list
+                </div>
+            @else
+                @foreach ($list->films as $film)
                 <div class="accordion-body">
                     {{ $film->nom }}
                 </div>
-            @endforeach
+                @endforeach
+            @endif
           </div>
         </div>
 
@@ -38,11 +44,17 @@
               </button>
             </h2>
             <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
-              @foreach ($list->series as $serie)
-                  <div class="accordion-body">
-                      {{ $serie->nom }}
-                  </div>
-              @endforeach
+                @if ($list->series->isEmpty())
+                    <div class="accordion-body">
+                        No series in this list
+                    </div>
+                @else
+                    @foreach ($list->series as $serie)
+                        <div class="accordion-body">
+                            {{ $serie->nom }}
+                        </div>
+                    @endforeach
+                @endif
             </div>
           </div>
       </div>
