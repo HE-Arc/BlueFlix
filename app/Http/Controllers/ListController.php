@@ -62,6 +62,12 @@ class ListController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $list = \App\Models\Liste::find($id);
+
+        $list->films()->detach();
+        $list->delete();
+
+        return redirect()->route('lists.index')
+            ->with('success','List deleted successfully');
     }
 }
