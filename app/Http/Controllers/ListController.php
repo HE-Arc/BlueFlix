@@ -37,7 +37,8 @@ class ListController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $list = \App\Models\Liste::findOrFail($id);
+        return view('lists.show', ['list' => $list]);
     }
 
     /**
