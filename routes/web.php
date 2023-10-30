@@ -32,8 +32,5 @@ Route::post('/login', [UserController::class, 'parseLogin']);
 
 Route::get('/profil',[UserController::class,'index'])->name('profil')->middleware('auth');
 
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect()->route('login')->with('success', 'You are logged out.');
-})->name('logout');
+Route::get('/logout',[UserController::class,'logout'])->name('logout');
 

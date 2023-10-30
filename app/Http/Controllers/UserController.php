@@ -24,7 +24,11 @@ class UserController extends Controller
         return view('users.login');
     }
 
-
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('home')->with('success', 'You are logged out.');
+    }
 
     public function parseLogin(Request $request)
     {
