@@ -20,7 +20,7 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::resource('lists', ListController::class);
+Route::resource('lists', ListController::class)->middleware('auth');
 Route::delete('lists/{listId}/movies/{movieId}', [ListController::class, 'destroyMovie'])->name('lists.destroyMovie');
 Route::delete('lists/{listId}/series/{seriesId}', [ListController::class, 'destroySeries'])->name('lists.destroySeries');
 
