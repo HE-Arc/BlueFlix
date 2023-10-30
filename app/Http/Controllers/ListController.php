@@ -12,7 +12,9 @@ class ListController extends Controller
      */
     public function index()
     {
-        $lists = Liste::all();
+        $lists = Liste::where('user_id', auth()->user()->id)->get();
+
+        //$lists = Liste::all();
         return view('lists.index', ['lists' => $lists]);
     }
 
@@ -38,7 +40,7 @@ class ListController extends Controller
         // -------------------------------
         // Code by Moak on StackOverflow (https://stackoverflow.com/a/51970195)
         $data = $request->all();
-        $data['user_id'] = $request->user()->id; //TODO: utiliser ça quand le système de login sera implémenté ?
+        $data['user_id'] = $request->user()->id;
         Liste::create($data);
         // -------------------------------
 
