@@ -10,7 +10,7 @@ class Liste extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'urlImage'];
+    protected $fillable = ['nom', 'urlImage', 'user_id']; //TODO: correcte d'avoir rajouté user_id ici pour pouvoir créer une liste ?
 
     /**
      * Define the relationship with the "User" model (assuming Liste is associated with a user).
