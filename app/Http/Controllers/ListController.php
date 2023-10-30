@@ -79,6 +79,7 @@ class ListController extends Controller
         $list = \App\Models\Liste::find($id);
 
         $list->films()->detach();
+        $list->series()->detach();
         $list->delete();
 
         return redirect()->route('lists.index')
