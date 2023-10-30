@@ -29,7 +29,20 @@
             @else
                 @foreach ($list->films as $film)
                 <div class="accordion-body">
-                    {{ $film->nom }}
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-10">
+                                {{ $film->nom }}
+                            </div>
+                            <div class="col-md-2">
+                                <form action="{{route('lists.destroyMovie', ['listId' => $list->id, 'movieId' => $film->id])}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 @endforeach
             @endif
@@ -51,7 +64,20 @@
                 @else
                     @foreach ($list->series as $serie)
                         <div class="accordion-body">
-                            {{ $serie->nom }}
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        {{ $serie->nom }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <form action="{{route('lists.destroySeries', ['listId' => $list->id, 'seriesId' => $serie->id])}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     @endforeach
                 @endif
