@@ -3,6 +3,9 @@
 use App\Http\Controllers\ListController;
 use Illuminate\Support\Facades\Route;
 
+
+use App\Http\Controllers\RegisterController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,3 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('lists', ListController::class);
+
+Route::get('/register',[RegisterController::class,'index'])->name('register');
+
+Route::post('/register', [RegisterController::class, 'createUser']);
