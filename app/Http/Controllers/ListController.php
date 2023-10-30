@@ -85,4 +85,22 @@ class ListController extends Controller
         return redirect()->route('lists.index')
             ->with('success','List deleted successfully');
     }
+
+    public function destroyMovie(string $id, string $movieId)
+    {
+        $list = \App\Models\Liste::find($id);
+        $list->films()->detach($movieId);
+
+        return redirect()->route('lists.show', $id)
+            ->with('success','Movie deleted successfully');
+    }
+
+    public function destroySeries(string $id, string $seriesId)
+    {
+        $list = \App\Models\Liste::find($id);
+        $list->series()->detach($seriesId);
+
+        return redirect()->route('lists.show', $id)
+            ->with('success','Series deleted successfully');
+    }
 }
