@@ -21,7 +21,7 @@ class ListController extends Controller
      */
     public function create()
     {
-        //
+        return view('lists.create');
     }
 
     /**
@@ -29,7 +29,21 @@ class ListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom' => 'required|min:5|max:30',
+            'urlImage' => 'required|min:10|max:255',
+            'user_id' => 'required|integer'
+        ]);
+
+        // -------------------------------
+        // Code by Moak on StackOverflow (https://stackoverflow.com/a/51970195)
+        $data = $request->all();
+        //$data['user_id'] = $request->user()->id; //TODO: utiliser ça quand le système de login sera implémenté ?
+        Liste::create($data);
+        // -------------------------------
+
+        return redirect()->route('lists.index')
+            ->with('success','List created successfully.');
     }
 
     /**
