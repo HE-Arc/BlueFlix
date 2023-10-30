@@ -28,7 +28,6 @@
                             <input type="url" name="urlImage" value="{{old('urlImage')}}" class="form-control" id="inputImgURL">
                         </div>
 
-                        <input type="hidden" name="user_id" value="1"> <!-- TODO: a supprimer, utilisé pour tester la création tant que le login n'est pas complètement implémenté -->
 
                         @if ($errors->any())
                             <div class="alert alert-danger mt-3 col-12">
