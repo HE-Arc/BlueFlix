@@ -24,8 +24,8 @@ Route::resource('lists', ListController::class);
 Route::delete('lists/{listId}/movies/{movieId}', [ListController::class, 'destroyMovie'])->name('lists.destroyMovie');
 Route::delete('lists/{listId}/series/{seriesId}', [ListController::class, 'destroySeries'])->name('lists.destroySeries');
 
-Route::get('/register',[RegisterController::class,'index'])->name('register');
-Route::post('/register', [RegisterController::class, 'createUser']);
+Route::get('/register',[UserController::class,'register'])->name('register');
+Route::post('/register', [UserController::class, 'createUser']);
 
 Route::get('/login',[UserController::class,'login'])->name('login');
 Route::post('/login', [UserController::class, 'parseLogin']);
