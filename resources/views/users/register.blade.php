@@ -1,51 +1,59 @@
 @extends('layout.app')
+
 @section('content')
-<main>
-    <h2 class="alignedTitle">Register</h2>
-    <div class="container">
-        <div class="registerContainer">
-            <div></div>
-            <form action="register" method="post">
-                @csrf
-                <div>
-                    <label for="username">Username</label>
+
+<form action="{{ route('register') }}" method="POST">
+    @csrf
+
+    <div class="row">
+        <div class="col-12 col-lg-6 offset-0 offset-lg-3">
+            <div class="card">
+                <div class="card-header">
+                    Register
                 </div>
-                <div>
-                    <input type="text" name="username" id="username" placeholder="Username" required>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" value="{{ old('username') }}" class="form-control" id="username" placeholder="Username">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="email" placeholder="Email">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label for="firstname">First Name</label>
+                            <input type="text" name="firstname" value="{{ old('firstname') }}" class="form-control" id="firstname" placeholder="First Name">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" name="lastname" value="{{ old('lastname') }}" class="form-control" id="lastname" placeholder="Last Name">
+                        </div>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger mt-3 col-12">
+                                <strong>Error!</strong> Please check your inputs.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <button type="submit" class="btn btn-primary mt-3">Create</button>
+                    </div>
                 </div>
-                <br>
-                <div>
-                    <label for="email">Email</label>
-                </div>
-                <div>
-                    <input type="email" name="email" id="email" placeholder="Email" required>
-                </div>
-                <br>
-                <div>
-                    <label for="password">Password</label>
-                </div>
-                <div>
-                    <input type="password" name="password" id="password" placeholder="Password" required>
-                </div>
-                <br>
-                <div>
-                    <label for="firstname">First name</label>
-                </div>
-                <div>
-                    <input type="text" name="firstname" id="firstname" placeholder="Firstname" required>
-                </div>
-                <br>
-                <div>
-                    <label for="lastname">Last name</label>
-                </div>
-                <div>
-                    <input type="text" name="lastname" id="lastname" placeholder="Lastname" required>
-                </div>
-                <br>
-                <input type="submit" name="create" value="Create">
-            </form>
-            <div></div>
+            </div>
         </div>
     </div>
-</main>
+</form>
 @endsection
