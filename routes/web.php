@@ -26,5 +26,14 @@ Route::delete('lists/{listId}/series/{seriesId}', [ListController::class, 'destr
 
 Route::get('/register',[RegisterController::class,'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'createUser']);
-Route::get('/login',[UserController::class,'index'])->name('login');
+
+Route::get('/login',[UserController::class,'login'])->name('login');
 Route::post('/login', [UserController::class, 'parseLogin']);
+
+Route::get('/profil',[UserController::class,'index'])->name('profil')->middleware('auth');
+
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect()->route('login')->with('success', 'You are logged out.');
+})->name('logout');
+

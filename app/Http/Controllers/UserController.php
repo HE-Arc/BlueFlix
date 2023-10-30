@@ -16,8 +16,15 @@ class UserController extends Controller
         }
 
 
+        return view('users.profil', compact('user'));
+    }
+
+    public function login()
+    {
         return view('users.login');
     }
+
+
 
     public function parseLogin(Request $request)
     {
@@ -29,8 +36,8 @@ class UserController extends Controller
         $user = User::where('username', $request->input('username'))->first();
 
         if (Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
-            return redirect()->route('login')->with('success', 'You are logged in.');
-            #return redirect()->route('welcome')->with('success', 'You are logged in.');
+            #return redirect()->route('login')->with('success', 'You are logged in.');
+            return redirect()->route('profil')->with('success', 'You are logged in.');
         } else {
             return redirect()->route('login')->with('error', 'Username or password is incorrect.');
         }

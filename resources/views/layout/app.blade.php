@@ -22,6 +22,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('lists.index') }}">Lists</a>
                     </li>
+                    @auth
+                        <li class="nav-item">
+                            <a class = "nav-link" href="{{ url('/logout') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class = "nav-link" href="{{ url('/profil') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Profil</a>
+                        </li>
+                        @else
+                        <li class="nav-item">
+                            <a class = "nav-link" href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Login</a>
+                        </li>
+                    @endauth
+
+
                 </ul>
             </div>
         </div>
