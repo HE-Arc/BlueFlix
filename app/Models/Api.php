@@ -14,6 +14,7 @@ class Api extends Model
     {
         $apiKey = env('API_KEY');
         $url = env('API_URL');
+        $url_image = env('API_IMAGE_URL');
 
         $response = Http::withHeaders([
             'Authorization' => $apiKey,
@@ -33,7 +34,7 @@ class Api extends Model
             // Mettez à jour les propriétés du film avec les nouvelles données
             $film->nom = $jsonData->title;
             $film->date_sortie = $jsonData->release_date;
-            $film->urlImage = $jsonData->poster_path;
+            $film->urlImage = $url_image . $jsonData->poster_path;
 
             $film->save();
 
@@ -47,6 +48,7 @@ class Api extends Model
     {
         $apiKey = env('API_KEY');
         $url = env('API_URL');
+        $url_image = env('API_IMAGE_URL');
 
         $response = Http::withHeaders([
             'Authorization' => $apiKey,
@@ -66,7 +68,7 @@ class Api extends Model
             // Mettez à jour les propriétés du film avec les nouvelles données
             $serie->nom = $jsonData->name;
             $serie->date_sortie = $jsonData->first_air_date;
-            $serie->urlImage = $jsonData->poster_path;
+            $serie->urlImage = $url_image . $jsonData->poster_path;
 
             $serie->save();
 

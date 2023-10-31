@@ -35,4 +35,5 @@ Route::get('/profil',[UserController::class,'index'])->name('profil')->middlewar
 
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
-//Route::get('/test', [TestController::class, 'show'])->name('test');
+//Route::get('/test/film', [TestController::class, 'showFilm'])->name('testFilm');
+//oute::get('/test/serie', [TestController::class, 'showSerie'])->name('testSerie');
