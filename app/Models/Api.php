@@ -14,6 +14,7 @@ class Api extends Model
     {
         $apiKey = env('API_KEY');
         $url = env('API_URL');
+        $url_image = env('API_IMAGE_URL');
 
         $response = Http::withHeaders([
             'Authorization' => $apiKey,
@@ -22,12 +23,20 @@ class Api extends Model
         $jsonData = json_decode($response);
 
         if ($jsonData) {
-            $film = new Film();
+            $film = Film::where('id', $jsonData->id)->first();
 
-            $film->id = $jsonData->id;
+            if ($film === null) {
+                // Si le film n'existe pas, ajoutez-le à la base de données
+                $film = new Film();
+                $film->id = $jsonData->id;
+            }
+
+            // Mettez à jour les propriétés du film avec les nouvelles données
             $film->nom = $jsonData->title;
             $film->date_sortie = $jsonData->release_date;
-            $film->urlImage = $jsonData->poster_path;
+            $film->urlImage = $url_image . $jsonData->poster_path;
+
+            $film->save();
 
             return $film;
         }
@@ -39,6 +48,7 @@ class Api extends Model
     {
         $apiKey = env('API_KEY');
         $url = env('API_URL');
+        $url_image = env('API_IMAGE_URL');
 
         $response = Http::withHeaders([
             'Authorization' => $apiKey,
@@ -47,12 +57,20 @@ class Api extends Model
         $jsonData = json_decode($response);
 
         if ($jsonData) {
-            $serie = new Serie();
+            $serie = Serie::where('id', $jsonData->id)->first();
 
-            $serie->id = $jsonData->id;
+            if ($serie === null) {
+                // Si la serie n'existe pas, ajoutez-le à la base de données
+                $serie = new Serie();
+                $serie->id = $jsonData->id;
+            }
+
+            // Mettez à jour les propriétés du film avec les nouvelles données
             $serie->nom = $jsonData->name;
             $serie->date_sortie = $jsonData->first_air_date;
-            $serie->urlImage = $jsonData->poster_path;
+            $serie->urlImage = $url_image . $jsonData->poster_path;
+
+            $serie->save();
 
             return $serie;
         }
