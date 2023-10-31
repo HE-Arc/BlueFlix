@@ -60,7 +60,7 @@ class Api extends Model
             $serie = Serie::where('id', $jsonData->id)->first();
 
             if ($serie === null) {
-                // Si le film n'existe pas, ajoutez-le à la base de données
+                // Si la serie n'existe pas, ajoutez-le à la base de données
                 $serie = new Serie();
                 $serie->id = $jsonData->id;
             }

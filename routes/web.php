@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\TestController;
+
+//use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -37,3 +38,4 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 //Route::get('/test/film', [TestController::class, 'showFilm'])->name('testFilm');
 //oute::get('/test/serie', [TestController::class, 'showSerie'])->name('testSerie');
+
