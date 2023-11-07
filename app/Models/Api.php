@@ -15,10 +15,11 @@ class Api extends Model
         $apiKey = env('API_KEY');
         $url = env('API_URL');
         $url_image = env('API_IMAGE_URL');
+        $api_language = env('API_LANGUAGE');
 
         $response = Http::withHeaders([
             'Authorization' => $apiKey,
-        ])->get($url . "/movie/" . $id);
+        ])->get($url . "/movie/" . $id . "?language=" . $api_language);
 
         $jsonData = json_decode($response);
 
@@ -49,10 +50,11 @@ class Api extends Model
         $apiKey = env('API_KEY');
         $url = env('API_URL');
         $url_image = env('API_IMAGE_URL');
+        $api_language = env('API_LANGUAGE');
 
         $response = Http::withHeaders([
             'Authorization' => $apiKey,
-        ])->get($url . "/tv/" . $id);
+        ])->get($url . "/tv/" . $id . "?language=" . $api_language);
 
         $jsonData = json_decode($response);
 
@@ -73,6 +75,78 @@ class Api extends Model
             $serie->save();
 
             return $serie;
+        }
+
+        return null;
+    }
+
+    public static function getFilmsList($query, $page = 1)
+    {
+        if ($query === null) {
+            return null;
+        }
+
+        $apiKey = env('API_KEY');
+        $url = env('API_URL');
+        $url_image = env('API_IMAGE_URL');
+        $api_language = env('API_LANGUAGE');
+
+        $response = Http::withHeaders([
+            'Authorization' => $apiKey,
+        ])->get($url . "/search/movie?query=" . $query . "&language=" . $api_language . "&page=" . $page);
+
+        $jsonData = json_decode($response);
+
+        if ($jsonData) {
+            $films = [];
+
+            foreach ($jsonData->results as $film) {
+                $newfilm = new Film();
+                $newfilm->id = $film->id;
+                $newfilm->nom = $film->title;
+                $newfilm->date_sortie = $film->release_date;
+                $newfilm->urlImage = $url_image . $film->poster_path;
+
+                $films[] = $newfilm;
+            }
+
+            return $films;
+        }
+
+        return null;
+    }
+
+    public static function getSeriesList($query, $page = 1)
+    {
+        if ($query === null) {
+            return null;
+        }
+
+        $apiKey = env('API_KEY');
+        $url = env('API_URL');
+        $url_image = env('API_IMAGE_URL');
+        $api_language = env('API_LANGUAGE');
+
+        $response = Http::withHeaders([
+            'Authorization' => $apiKey,
+        ])->get($url . "/search/tv?query=" . $query . "&language=" . $api_language . "&page=" . $page);
+
+        $jsonData = json_decode($response);
+
+        if ($jsonData) {
+            $series = [];
+
+            foreach ($jsonData->results as $serie) {
+                $newserie = new Serie();
+                $newserie->id = $serie->id;
+                $newserie->nom = $serie->name;
+                $newserie->date_sortie = $serie->first_air_date;
+                $newserie->urlImage = $url_image . $serie->poster_path;
+
+                $series[] = $serie;
+            }
+
+            return $series;
         }
 
         return null;
