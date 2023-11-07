@@ -27,6 +27,10 @@
                             <label for="password">Password</label>
                             <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                         </div>
+                        <div class="form-group col-12">
+                            <label for="password_confirmation">Confirm password</label>
+                            <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="Confirm password">
+                        </div>
 
                         <div class="form-group col-12">
                             <label for="firstname">First Name</label>
