@@ -36,6 +36,6 @@ Route::get('/profil',[UserController::class,'index'])->name('profil')->middlewar
 
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
-//Route::get('/test/film', [TestController::class, 'showFilm'])->name('testFilm');
-//oute::get('/test/serie', [TestController::class, 'showSerie'])->name('testSerie');
+//Route::get('/test/film', [TestController::class, 'showFilmList'])->name('testFilm');
+//Route::get('/test/serie', [TestController::class, 'showSerieList'])->name('testSerie');
 
