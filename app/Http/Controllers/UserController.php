@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 
 use App\Models\User;
+use App\Models\Liste;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -23,6 +24,7 @@ class UserController extends Controller
     {
         return view('users.login');
     }
+
 
     public function register()
     {
@@ -44,18 +46,7 @@ class UserController extends Controller
 
         $user = User::where('username', $request->input('username'))->first();
 
-
-        /*
-        if (Auth::attempt($request->only('username', 'password'))) {
-            return redirect()->route('profil')->with('success', 'You are logged in.');
-        } else {
-            return redirect()->route('login')->with('error', 'Username or password is incorrect.');
-        }
-
-        */
-
         if (Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
-            #return redirect()->route('login')->with('success', 'You are logged in.');
             return redirect()->route('profil')->with('success', 'You are logged in.');
         } else {
             return redirect()->route('login')->with('error', 'Username or password is incorrect.');
@@ -86,8 +77,37 @@ class UserController extends Controller
 
         $user->save();
 
+        $this->createDefaultList($user);
+
         auth()->login($user);
 
         return redirect()->route('home')->with('success', 'Account created successfully!');
+    }
+
+    private function createDefaultList(User $user)
+    {
+        $li = new Liste();
+
+        $Favorite = [
+            "nom" => "Favorite",
+            "urlImage" => "https://stackoverflow.com",
+            "user_id" => $user->id,
+        ];
+
+        $Seen = [
+            "nom" => "Seen",
+            "urlImage" => "https://stackoverflow.com",
+            "user_id" => $user->id,
+        ];
+
+        $ToSee = [
+            "nom" => "To see",
+            "urlImage" => "https://stackoverflow.com",
+            "user_id" => $user->id,
+        ];
+
+        Liste::create($Favorite);
+        Liste::create($Seen);
+        Liste::create($ToSee);
     }
 }
