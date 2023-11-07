@@ -44,6 +44,16 @@ class UserController extends Controller
 
         $user = User::where('username', $request->input('username'))->first();
 
+
+        /*
+        if (Auth::attempt($request->only('username', 'password'))) {
+            return redirect()->route('profil')->with('success', 'You are logged in.');
+        } else {
+            return redirect()->route('login')->with('error', 'Username or password is incorrect.');
+        }
+
+        */
+
         if (Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
             #return redirect()->route('login')->with('success', 'You are logged in.');
             return redirect()->route('profil')->with('success', 'You are logged in.');
@@ -59,7 +69,7 @@ class UserController extends Controller
             'lastname' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'username' => 'required|string|max:255|unique:users,username',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         // Create new user
