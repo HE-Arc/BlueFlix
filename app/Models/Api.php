@@ -23,7 +23,7 @@ class Api extends Model
 
         $jsonData = json_decode($response);
 
-        if ($jsonData) {
+        if ($jsonData && isset($jsonData->id)) {
             $film = Film::where('id', $jsonData->id)->first();
 
             if ($film === null) {
@@ -58,7 +58,7 @@ class Api extends Model
 
         $jsonData = json_decode($response);
 
-        if ($jsonData) {
+        if ($jsonData && isset($jsonData->id)) {
             $serie = Serie::where('id', $jsonData->id)->first();
 
             if ($serie === null) {
@@ -103,9 +103,9 @@ class Api extends Model
             foreach ($jsonData->results as $film) {
                 $newfilm = new Film();
                 $newfilm->id = $film->id;
-                $newfilm->nom = $film->title;
-                $newfilm->date_sortie = $film->release_date;
-                $newfilm->urlImage = $url_image . $film->poster_path;
+                $newfilm->title = $film->title;
+                $newfilm->image = $url_image . $film->poster_path;
+                $newfilm->route = route('films.details', ['id' => $film->id]);
 
                 $films[] = $newfilm;
             }
@@ -139,11 +139,11 @@ class Api extends Model
             foreach ($jsonData->results as $serie) {
                 $newserie = new Serie();
                 $newserie->id = $serie->id;
-                $newserie->nom = $serie->name;
-                $newserie->date_sortie = $serie->first_air_date;
-                $newserie->urlImage = $url_image . $serie->poster_path;
+                $newserie->title = $serie->name;
+                $newserie->image = $url_image . $serie->poster_path;
+                $newserie->route = route('series.details', ['id' => $serie->id]);
 
-                $series[] = $serie;
+                $series[] = $newserie;
             }
 
             return $series;
