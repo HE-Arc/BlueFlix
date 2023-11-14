@@ -8,6 +8,9 @@ use App\Http\Controllers\RegisterController;
 
 //use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\FilmController;
+use App\Http\Controllers\SerieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +38,12 @@ Route::post('/login', [UserController::class, 'parseLogin']);
 Route::get('/profil',[UserController::class,'index'])->name('profil')->middleware('auth');
 
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
+
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+Route::get('/films/{id}', [FilmController::class, 'showFilm'])->name('films.details');
+
+Route::get('/series/{id}', [SerieController::class, 'showSerie'])->name('series.details');
 
 //Route::get('/test/film', [TestController::class, 'showFilmList'])->name('testFilm');
 //Route::get('/test/serie', [TestController::class, 'showSerieList'])->name('testSerie');
