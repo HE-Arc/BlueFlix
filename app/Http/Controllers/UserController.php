@@ -9,15 +9,28 @@ use App\Models\User;
 use App\Models\Liste;
 use Illuminate\Http\Request;
 
+use App\Models\CardInfo;
+
 class UserController extends Controller
 {
     public function index()
     {
         if(Auth::check()) {
             $user = Auth::user();
+            $lists = Liste::where('user_id', auth()->user()->id)->get();
+
+            $results = [];
+            //title, image, route("route('lists.show', $list->id)")
+            foreach ($lists as $list) {
+                $newelement = new CardInfo();
+                $newelement->title = $list->nom;
+                $newelement->image = $list->urlImage;
+                $newelement->route = route('lists.show', $list->id);
+                array_push($results, $newelement);
+            }
         }
 
-        return view('users.profil', compact('user'));
+        return view('users.profil', compact('user'),['results' => $results]);
     }
 
     public function login()

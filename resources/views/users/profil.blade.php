@@ -13,5 +13,11 @@
             <div></div>
         </div>
     </div>
+
+    @isset($results)
+    @foreach ($results as $result)
+        @include("partials.card", ["cardInfo" => $result])
+    @endforeach
+@endisset
 </main>
 @endsection

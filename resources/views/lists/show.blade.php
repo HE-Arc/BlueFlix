@@ -3,7 +3,7 @@
 @section("content")
 <div class="row mb-3">
     <div class="col-12">
-        <a class="btn btn-primary" href="{{route("lists.index")}}"><i class="bi bi-arrow-return-left"></i></a>
+        <a class="btn btn-primary" href="{{url("/profil")}}"><i class="bi bi-arrow-return-left"></i></a>
     </div>
 </div>
 
