@@ -15,24 +15,22 @@
             </div>
         </div>
         @if(auth()->id() == $user->id)
-            <a href="{{route('lists.create')}}" class="btn btn-primary float-right mb-2"><i class="bi bi-plus-square-fill"></i> Create a new list</a>
+            <a href="{{ route('profil.edit', ['id' => $user->id]) }}" class="btn btn-primary float-right mb-2"><i class="bi bi-pencil-fill"></i> Edit Profile</a>
+            <a href="{{ route('lists.create') }}" class="btn btn-primary float-right mb-2 mr-2"><i class="bi bi-plus-square-fill"></i> Create a new list</a>
         @endif
-
 
         @isset($results)
             <div class="card-container">
                 @foreach ($results as $result)
                     @include("partials.card", ["cardInfo" => $result])
                     @if(auth()->id() == $user->id)
-                        <a class="btn btn-primary" href="{{route('lists.edit', $result->id)}}"><i class="bi bi-pencil-fill"></i></a>
+                        <a class="btn btn-primary" href="{{ route('lists.edit', $result->id) }}"><i class="bi bi-pencil-fill"></i></a>
 
-                        <form action="{{route('lists.destroy', $result->id)}}" method="POST" class="d-inline">
+                        <form action="{{ route('lists.destroy', $result->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                         </form>
-
-
                     @endif
                 @endforeach
             </div>
