@@ -23,7 +23,6 @@ class ListController extends Controller
      */
     public function create()
     {
-
         return view('lists.create');
     }
 
@@ -64,7 +63,8 @@ class ListController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $list = \App\Models\Liste::findOrFail($id);
+        return view('lists.edit', ['list' => $list]);
     }
 
     /**
@@ -72,7 +72,17 @@ class ListController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nom' => 'required|min:5|max:30',
+            'urlImage' => 'required|min:10|max:255'
+        ]);
+
+        $list = \App\Models\Liste::findOrFail($id);
+        $list->nom = $request->get('nom');
+        $list->urlImage = $request->get('urlImage');
+        $list->save();
+
+        return redirect()->route('lists.index');
     }
 
     public function ajaxUpdate(Request $request)
