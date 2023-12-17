@@ -4,6 +4,7 @@
 
 <form action="{{ route('register') }}" method="POST">
     @csrf
+    <h2 class="alignedTitle">Register</h2>
 
     <div class="row">
         <div class="col-12 col-lg-6 offset-0 offset-lg-3">
