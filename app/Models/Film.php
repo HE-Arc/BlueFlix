@@ -10,7 +10,7 @@ class Film extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'date_sortie', 'urlImage'];
+    protected $fillable = ['nom', 'date_sortie', 'overview', 'companyNames', 'genres', 'runtime', 'urlImage'];
 
     /**
      * Define a many-to-many relationship with the "Liste" model.
