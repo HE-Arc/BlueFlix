@@ -7,7 +7,7 @@
     </div>
 </div>
 
-<form action="{{route("lists.store")}}" method="POST">
+<form action="{{route("lists.store")}}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="row">
@@ -24,8 +24,9 @@
                         </div>
 
                         <div class="form-group col-12">
-                            <label for="inputImgURL">Image URL</label>
-                            <input type="url" name="urlImage" value="{{old('urlImage')}}" class="form-control" id="inputImgURL">
+                            <label for="inputImgURL">Image</label>
+                            <!--<input type="url" name="urlImage" value="{{old('urlImage')}}" class="form-control" id="inputImgURL">-->
+                            <input type="file" accept="image/png, image/jpeg" class="form-control" name="urlImage" value="{{old('urlImage')}}" id="inputImgURL"/>
                         </div>
 
 
