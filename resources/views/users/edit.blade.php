@@ -2,9 +2,9 @@
 
 @section('content')
 
-<form action="{{ route('profil.update', ['id' => $user->id]) }}" method="POST">
+<form action="{{ route('profil.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
-    @method('PUT') {{-- Utilisation de la méthode PUT pour la mise à jour --}}
+    @method('PUT')
 
     <h2 class="alignedTitle">Edit Profile</h2>
 
@@ -44,6 +44,11 @@
                         <div class="form-group col-12">
                             <label for="lastname">Last Name</label>
                             <input type="text" name="lastname" value="{{ old('lastname', $user->lastname) }}" class="form-control" id="lastname" placeholder="Last Name">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label for="inputImgURL">Image</label>
+                            <input type="file" accept="image/png, image/jpeg" class="form-control" name="urlImage" value="{{old('urlImage')}}" id="inputImgURL"/>
                         </div>
 
                         @if ($errors->any())
