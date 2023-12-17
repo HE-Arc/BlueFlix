@@ -4,7 +4,7 @@
     <main>
         <h2 class="alignedTitle">Profil</h2>
         <div class="container">
-            <div class="profilContainer">
+            <div class="profilContainer p-4 mb-4" style="background-color: #f8f9fa;">
                 <div>
                     <img src="{{asset("images/$user->urlImage")}}" alt="Image Placeholder">
                 </div>
@@ -15,6 +15,7 @@
                 <p>Created at: {{ $user->created_at }}</p>
                 <div></div>
             </div>
+
         </div>
         @if(auth()->id() == $user->id)
             <a href="{{ route('profil.edit', ['id' => $user->id]) }}" class="btn btn-primary float-right mb-2"><i class="bi bi-pencil-fill"></i> Edit Profile</a>
@@ -22,18 +23,9 @@
         @endif
 
         @isset($results)
-            <div class="card-container">
+            <div class="card-container row">
                 @foreach ($results as $result)
-                    @include("partials.card", ["cardInfo" => $result])
-                    @if(auth()->id() == $user->id)
-                        <a class="btn btn-primary" href="{{ route('lists.edit', $result->id) }}"><i class="bi bi-pencil-fill"></i></a>
-
-                        <form action="{{ route('lists.destroy', $result->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                        </form>
-                    @endif
+                    @include("partials.listCard", ["cardInfo" => $result])
                 @endforeach
             </div>
         @endisset
