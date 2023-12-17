@@ -26,9 +26,9 @@ use App\Http\Controllers\SerieController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('lists', ListController::class)->middleware('auth');
-Route::post('lists/ajax', [ListController::class, 'ajaxUpdate'])->name('lists.ajax'); //TODO: bon verbe ? changer le nom ?
-Route::delete('lists/{listId}/movies/{movieId}', [ListController::class, 'destroyMovie'])->name('lists.destroyMovie');
-Route::delete('lists/{listId}/series/{seriesId}', [ListController::class, 'destroySeries'])->name('lists.destroySeries');
+Route::post('lists/ajax', [ListController::class, 'ajaxUpdate'])->middleware('auth')->name('lists.ajax'); //TODO: bon verbe ?
+Route::delete('lists/{listId}/movies/{movieId}', [ListController::class, 'destroyMovie'])->middleware('auth')->name('lists.destroyMovie');
+Route::delete('lists/{listId}/series/{seriesId}', [ListController::class, 'destroySeries'])->middleware('auth')->name('lists.destroySeries');
 
 Route::get('/register',[UserController::class,'register'])->name('register');
 Route::post('/register', [UserController::class, 'createUser']);
