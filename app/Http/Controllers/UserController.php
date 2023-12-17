@@ -13,22 +13,23 @@ use App\Models\CardInfo;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        if(Auth::check()) {
-            $user = Auth::user();
-            $lists = Liste::where('user_id', auth()->user()->id)->get();
+        $user = User::find($id);
+        $lists = Liste::where('user_id', $id)->get();
 
-            $results = [];
-            //title, image, route("route('lists.show', $list->id)")
-            foreach ($lists as $list) {
-                $newelement = new CardInfo();
-                $newelement->title = $list->nom;
-                $newelement->image = $list->urlImage;
-                $newelement->route = route('lists.show', $list->id);
-                array_push($results, $newelement);
-            }
+
+        $results = [];
+        //title, image, route("route('lists.show', $list->id)")
+        foreach ($lists as $list) {
+            $newelement = new CardInfo();
+            $newelement->title = $list->nom;
+            $newelement->image = $list->urlImage;
+            $newelement->id = $list->id;
+            $newelement->route = route('lists.show', $list->id);
+            array_push($results, $newelement);
         }
+
 
         return view('users.profil', compact('user'),['results' => $results]);
     }
@@ -60,7 +61,9 @@ class UserController extends Controller
         $user = User::where('username', $request->input('username'))->first();
 
         if (Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
-            return redirect()->route('profil')->with('success', 'You are logged in.');
+            return redirect()->route('profil', ['id' => auth()->id()])->with('success', 'You are logged in.');
+            #return redirect()->action([UserController::class, 'index'], ['id' => auth()->id()])->with('success', 'You are logged in.');
+
         } else {
             return redirect()->route('login')->with('error', 'Username or password is incorrect.');
         }
