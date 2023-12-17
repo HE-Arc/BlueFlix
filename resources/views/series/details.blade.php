@@ -13,6 +13,10 @@
 			<p>
                 {{$serie->date_sortie}}
             </p>
+
+            @auth
+                @include("partials.addToList")
+            @endauth
 		</div>
 	</div>
 </div>
