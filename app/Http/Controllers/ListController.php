@@ -73,6 +73,45 @@ class ListController extends Controller
         //
     }
 
+    public function ajaxUpdate(Request $request)
+    {
+        $validatedData = $request->validate([
+            'listId' => 'required|numeric',
+            'isChecked' => 'required|boolean',
+            'elementData' => 'required|numeric',
+            'elementType' => 'required|in:film,serie',
+        ]);
+
+        $id = $validatedData['listId'];
+        $isChecked = $validatedData['isChecked'];
+        $elementId = $validatedData['elementData'];
+        $elementType = $validatedData['elementType'];
+
+        if($elementType == 'film') {
+            $list = \App\Models\Liste::findOrFail($id);
+            if($isChecked) {
+                $list->films()->attach($elementId);
+            } else {
+                $list->films()->detach($elementId);
+            }
+        } else if($elementType == 'serie') {
+            $list = \App\Models\Liste::findOrFail($id);
+            if($isChecked) {
+                $list->series()->attach($elementId);
+            } else {
+                $list->series()->detach($elementId);
+            }
+        } else {
+            return response()->json([
+                'error' => 'Invalid element type.'
+            ]);
+        }
+
+        return response()->json([
+            'success' => 'List updated successfully.'
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
