@@ -37,6 +37,25 @@ class Api extends Model
             $film->date_sortie = $jsonData->release_date;
             $film->urlImage = $url_image . $jsonData->poster_path;
 
+            $film->overview = $jsonData->overview;
+            $film->runtime = $jsonData->runtime;
+
+            $companyNames = [];
+
+            foreach ($jsonData->production_companies as $company) {
+                $companyNames[] = $company->name;
+            }
+
+            $film->companyNames = implode(', ', $companyNames);
+
+            $genreNames = [];
+
+            foreach ($jsonData->genres as $genre) {
+                $genreNames[] = $genre->name;
+            }
+
+            $film->genres = implode(', ', $genreNames);
+
             $film->save();
 
             return $film;
@@ -71,6 +90,29 @@ class Api extends Model
             $serie->nom = $jsonData->name;
             $serie->date_sortie = $jsonData->first_air_date;
             $serie->urlImage = $url_image . $jsonData->poster_path;
+
+            $serie->overview = $jsonData->overview;
+            $serie->runtime = $jsonData->episode_run_time[0];
+
+            $serie->number_of_seasons = $jsonData->number_of_seasons;
+            $serie->number_of_episodes = $jsonData->number_of_episodes;
+
+            $companyNames = [];
+
+            foreach ($jsonData->production_companies as $company) {
+                $companyNames[] = $company->name;
+            }
+
+            $serie->companyNames = implode(', ', $companyNames);
+
+            $genreNames = [];
+
+            foreach ($jsonData->genres as $genre) {
+                $genreNames[] = $genre->name;
+            }
+
+            $serie->genres = implode(', ', $genreNames);
+
 
             $serie->save();
 
