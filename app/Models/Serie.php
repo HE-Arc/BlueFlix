@@ -10,7 +10,7 @@ class Serie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'date_sortie', 'urlImage'];
+    protected $fillable = ['nom', 'date_sortie', 'overview', 'companyNames', 'genres', 'runtime', 'number_of_seasons', 'number_of_episodes', 'urlImage'];
 
     /**
      * Define a many-to-many relationship with the "Liste" model.
