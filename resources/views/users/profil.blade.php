@@ -5,7 +5,9 @@
         <h2 class="alignedTitle">Profil</h2>
         <div class="container">
             <div class="profilContainer">
-                <div></div>
+                <div>
+                    <img src="{{asset("images/$user->urlImage")}}" alt="Image Placeholder">
+                </div>
                 <p>Username: {{ $user->username }}</p>
                 <p>Email: {{ $user->email }}</p>
                 <p>Firstname: {{ $user->firstname }}</p>
