@@ -77,6 +77,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:8|confirmed',
+            'urlImage' => 'required|image|mimes:png,jpg,jpeg|max:2048'
         ]);
 
         // Create new user
@@ -86,10 +87,11 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->username = $request->input('username');
         $user->password = bcrypt($request->input('password'));
-
-
         $user->name = $request->input('firstname');
 
+        $imageName = time().'.userpic.'.$request->urlImage->extension();
+        $request->urlImage->move(public_path('images'), $imageName);
+        $user->urlImage = $imageName;
 
         $user->save();
 
