@@ -37,5 +37,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Liste::class);
     }
+
+    /**
+     * Rechercher tous les utilisateurs qui contiennent une certaine requête.
+     *
+     * @param string $query
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function searchUsers($query)
+    {
+        return self::where('username', 'like', "%$query%")->get();
+    }
 }
 
