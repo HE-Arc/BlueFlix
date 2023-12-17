@@ -58,14 +58,14 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
-        $user = User::where('username', $request->input('username'))->first();
+        #$user = User::where('username', $request->input('username'))->first();
 
         if (Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
             return redirect()->route('profil', ['id' => auth()->id()])->with('success', 'You are logged in.');
             #return redirect()->action([UserController::class, 'index'], ['id' => auth()->id()])->with('success', 'You are logged in.');
 
         } else {
-            return redirect()->route('login')->with('error', 'Username or password is incorrect.');
+            return redirect()->route('login')->withErrors(['loginError' => 'Username or password is incorrect.'])->withInput();
         }
     }
 
