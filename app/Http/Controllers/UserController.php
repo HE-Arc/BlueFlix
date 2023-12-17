@@ -24,7 +24,7 @@ class UserController extends Controller
         foreach ($lists as $list) {
             $newelement = new CardInfo();
             $newelement->title = $list->nom;
-            $newelement->image = $list->urlImage;
+            $newelement->image = asset("images/$list->urlImage");
             $newelement->id = $list->id;
             $newelement->route = route('lists.show', $list->id);
             array_push($results, $newelement);
