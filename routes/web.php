@@ -36,7 +36,7 @@ Route::post('/register', [UserController::class, 'createUser']);
 Route::get('/login',[UserController::class,'login'])->name('login');
 Route::post('/login', [UserController::class, 'parseLogin']);
 
-Route::get('/profil',[UserController::class,'index'])->name('profil')->middleware('auth');
+Route::get('/profil/{id}',[UserController::class,'index'])->name('profil');
 
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
