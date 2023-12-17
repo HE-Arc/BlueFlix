@@ -33,18 +33,20 @@ class ListController extends Controller
     {
         $request->validate([
             'nom' => 'required|min:5|max:30',
-            'urlImage' => 'required|min:10|max:255'
+            'urlImage' => 'required|image|mimes:png,jpg,jpeg|max:2048'
         ]);
+
+        $imageName = time().'.'.$request->user()->id.'.'.$request->urlImage->extension();
+        $request->urlImage->move(public_path('images'), $imageName);
 
         // -------------------------------
         // Code by Moak on StackOverflow (https://stackoverflow.com/a/51970195)
         $data = $request->all();
         $data['user_id'] = $request->user()->id;
+        $data['urlImage'] = $imageName;
         Liste::create($data);
         // -------------------------------
 
-        //return redirect()->route('lists.index')
-        //    ->with('success','List created successfully.');
         return redirect()->route('profil', ['id' => auth()->id()])
             ->with('success', 'List created successfully.');
     }
@@ -74,12 +76,19 @@ class ListController extends Controller
     {
         $request->validate([
             'nom' => 'required|min:5|max:30',
-            'urlImage' => 'required|min:10|max:255'
+            'urlImage' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
         ]);
 
         $list = \App\Models\Liste::findOrFail($id);
         $list->nom = $request->get('nom');
-        $list->urlImage = $request->get('urlImage');
+
+        if ($request->hasFile('urlImage')) {
+            unlink(public_path('images/'.$list->urlImage));
+            $imageName = time().'.'.$request->user()->id.'.'.$request->urlImage->extension();
+            $request->urlImage->move(public_path('images'), $imageName);
+            $list->urlImage = $imageName;
+        }
+
         $list->save();
 
         return redirect()->route('lists.index');
@@ -99,15 +108,21 @@ class ListController extends Controller
         $elementId = $validatedData['elementData'];
         $elementType = $validatedData['elementType'];
 
+        $list = \App\Models\Liste::findOrFail($id);
+
+        if($list->user_id != $request->user()->id) {
+            return response()->json([
+                'error' => $request->user()->id
+            ]);
+        }
+
         if($elementType == 'film') {
-            $list = \App\Models\Liste::findOrFail($id);
             if($isChecked) {
                 $list->films()->attach($elementId);
             } else {
                 $list->films()->detach($elementId);
             }
         } else if($elementType == 'serie') {
-            $list = \App\Models\Liste::findOrFail($id);
             if($isChecked) {
                 $list->series()->attach($elementId);
             } else {
@@ -130,6 +145,8 @@ class ListController extends Controller
     public function destroy(string $id)
     {
         $list = \App\Models\Liste::find($id);
+
+        unlink(public_path('images/'.$list->urlImage));
 
         $list->films()->detach();
         $list->series()->detach();
