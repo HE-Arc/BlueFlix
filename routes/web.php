@@ -26,6 +26,7 @@ use App\Http\Controllers\SerieController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('lists', ListController::class)->middleware('auth');
+Route::post('lists/ajax', [ListController::class, 'ajaxUpdate'])->name('lists.ajax'); //TODO: bon verbe ? changer le nom ?
 Route::delete('lists/{listId}/movies/{movieId}', [ListController::class, 'destroyMovie'])->name('lists.destroyMovie');
 Route::delete('lists/{listId}/series/{seriesId}', [ListController::class, 'destroySeries'])->name('lists.destroySeries');
 
