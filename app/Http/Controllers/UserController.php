@@ -134,9 +134,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        // Vérifier si l'utilisateur authentifié est celui qui modifie son profil
         if (auth()->user()->id !== $user->id) {
-            return redirect()->route('home')->with('error', 'You can only modify your profile !');
+            return redirect()->route('home')->with('error', 'You don\'t have access to this ressource !');
         }
 
         return view('users.edit', compact('user'));
@@ -146,9 +145,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        // Vérifier si l'utilisateur authentifié est celui qui modifie son profil
         if (auth()->user()->id !== $user->id) {
-            return redirect()->route('home')->with('error', 'You can only modify your profile !');
+            return redirect()->route('home')->with('error', 'You don\'t have access to this ressource !');
         }
 
         $request->validate([
@@ -157,7 +155,15 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,' . $user->id,
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
+            'urlImage' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
         ]);
+
+        if ($request->hasFile('urlImage')) {
+            unlink(public_path('images/'.$user->urlImage));
+            $imageName = time().'.userpic.'.$request->urlImage->extension();
+            $request->urlImage->move(public_path('images'), $imageName);
+            $user->update(['urlImage' => $imageName]);
+        }
 
         $user->update([
             'firstname' => $request->input('firstname'),
