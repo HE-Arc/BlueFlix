@@ -10,9 +10,6 @@
 
             <div class="card-body">
                 <h5 class="card-title">{{$cardInfo->title}}</h5>
-                <div class="additional-buttons">
-                    @yield('additionalButtons')
-                </div>
             </div>
         </div>
     </a>
