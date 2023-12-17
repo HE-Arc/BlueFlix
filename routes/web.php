@@ -37,6 +37,8 @@ Route::get('/login',[UserController::class,'login'])->name('login');
 Route::post('/login', [UserController::class, 'parseLogin']);
 
 Route::get('/profil/{id}',[UserController::class,'index'])->name('profil');
+Route::get('/profil/{id}/edit',[UserController::class,'edit'])->middleware('auth')->name('profil.edit');
+Route::put('/profil/{id}', [UserController::class, 'update'])->middleware('auth')->name('profil.update');
 
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 

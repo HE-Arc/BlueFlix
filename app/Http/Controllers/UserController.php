@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Liste;
 use Illuminate\Http\Request;
@@ -125,5 +126,48 @@ class UserController extends Controller
         Liste::create($Favorite);
         Liste::create($Seen);
         Liste::create($ToSee);
+    }
+
+    public function edit($id)
+    {
+        $user = User::find($id);
+
+        // Vérifier si l'utilisateur authentifié est celui qui modifie son profil
+        if (auth()->user()->id !== $user->id) {
+            return redirect()->route('home')->with('error', 'You can only modify your profile !');
+        }
+
+        return view('users.edit', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        // Vérifier si l'utilisateur authentifié est celui qui modifie son profil
+        if (auth()->user()->id !== $user->id) {
+            return redirect()->route('home')->with('error', 'You can only modify your profile !');
+        }
+
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $user->update([
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'email' => $request->input('email'),
+            'username' => $request->input('username'),
+        ]);
+
+        if ($request->filled('password')) {
+            $user->update(['password' => bcrypt($request->input('password'))]);
+        }
+
+        return redirect()->route('profil', ['id' => $user->id])->with('success', 'Profile updated successfully!');
     }
 }
