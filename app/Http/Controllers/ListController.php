@@ -44,8 +44,10 @@ class ListController extends Controller
         Liste::create($data);
         // -------------------------------
 
-        return redirect()->route('lists.index')
-            ->with('success','List created successfully.');
+        //return redirect()->route('lists.index')
+        //    ->with('success','List created successfully.');
+        return redirect()->route('profil', ['id' => auth()->id()])
+            ->with('success', 'List created successfully.');
     }
 
     /**
@@ -123,8 +125,10 @@ class ListController extends Controller
         $list->series()->detach();
         $list->delete();
 
-        return redirect()->route('lists.index')
-            ->with('success','List deleted successfully');
+        /*return redirect()->route('lists.index')
+            ->with('success','List deleted successfully');*/
+        return redirect()->route('profil', ['id' => auth()->id()])
+            ->with('success', 'List deleted successfully.');
     }
 
     public function destroyMovie(string $id, string $movieId)
