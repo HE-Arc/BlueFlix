@@ -151,4 +151,64 @@ class Api extends Model
 
         return null;
     }
+
+    public static function getDiscoverFilms()
+    {
+        $apiKey = env('API_KEY');
+        $url = env('API_URL');
+        $url_image = env('API_IMAGE_URL');
+        $api_language = env('API_LANGUAGE');
+
+        $response = Http::withHeaders([
+            'Authorization' => $apiKey,
+        ])->get($url . "/discover/movie?" . "&language=" . $api_language);
+
+        $jsonData = json_decode($response);
+
+        if ($jsonData) {
+            $films = [];
+
+            foreach ($jsonData->results as $film) {
+                $newfilm = new Film();
+                $newfilm->id = $film->id;
+                $newfilm->title = $film->title;
+                $newfilm->image = $url_image . $film->poster_path;
+                $newfilm->route = route('films.details', ['id' => $film->id]);
+
+                $films[] = $newfilm;
+            }
+
+            return $films;
+        }
+    }
+
+    public static function getDiscoverSeries()
+    {
+        $apiKey = env('API_KEY');
+        $url = env('API_URL');
+        $url_image = env('API_IMAGE_URL');
+        $api_language = env('API_LANGUAGE');
+
+        $response = Http::withHeaders([
+            'Authorization' => $apiKey,
+        ])->get($url . "/discover/tv?" . "&language=" . $api_language);
+
+        $jsonData = json_decode($response);
+
+        if ($jsonData) {
+            $series = [];
+
+            foreach ($jsonData->results as $serie) {
+                $newserie = new Serie();
+                $newserie->id = $serie->id;
+                $newserie->title = $serie->name;
+                $newserie->image = $url_image . $serie->poster_path;
+                $newserie->route = route('series.details', ['id' => $serie->id]);
+
+                $series[] = $newserie;
+            }
+
+            return $series;
+        }
+    }
 }
