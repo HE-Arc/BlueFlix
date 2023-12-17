@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action="{{ route('register') }}" method="POST">
+<form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="row">
@@ -40,6 +40,11 @@
                         <div class="form-group col-12">
                             <label for="lastname">Last Name</label>
                             <input type="text" name="lastname" value="{{ old('lastname') }}" class="form-control" id="lastname" placeholder="Last Name">
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label for="inputImgURL">Image</label>
+                            <input type="file" accept="image/png, image/jpeg" class="form-control" name="urlImage" value="{{old('urlImage')}}" id="inputImgURL"/>
                         </div>
 
                         @if ($errors->any())
