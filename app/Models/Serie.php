@@ -14,12 +14,19 @@ class Serie extends Model
 
     /**
      * Define a many-to-many relationship with the "Liste" model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function listes(): BelongsToMany
     {
         return $this->belongsToMany(Liste::class, 'serie_liste', 'serie_id', 'liste_id');
     }
 
+    /**
+     * Get the ratings associated with the serie.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function ratings()
     {
         return $this->hasMany(RatingSerie::class);

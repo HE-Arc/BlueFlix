@@ -82,7 +82,7 @@
                 success: function(response) {
                     console.log('Rating added successfully.');
 
-                    // Mise à jour de la moyenne affichée
+                    // Update the average rating
                     updateAverageRating();
                 },
                 error: function(error) {
@@ -97,7 +97,7 @@
                 url: '/films/' + filmId + '/get-average-rating',
                 type: 'GET',
                 success: function(response) {
-                    // Mettre à jour l'affichage de la moyenne
+                    // Update the average rating
                     $('.average-rating').text('Average Rating: ' + response.averageRating.toFixed(2) + ' stars');
                 },
                 error: function(error) {

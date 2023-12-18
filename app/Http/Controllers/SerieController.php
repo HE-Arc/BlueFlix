@@ -12,45 +12,79 @@ use App\Models\Serie;
 
 class SerieController extends Controller
 {
+    /**
+     * Display the details of a TV series.
+     *
+     * @param int $id Series ID
+     * @return \Illuminate\Contracts\View\View
+     */
     public function showSerie($id)
     {
+        // Get series details from the external API
         $apiData = Api::getSerieDetails($id);
-        if(Auth::check()) {
+
+        // Check if the user is authenticated
+        if (Auth::check()) {
+            // Retrieve user-specific lists
             $query = Liste::where('user_id', auth()->user()->id);
             $lists = $query->select('id', 'nom')->get();
-            $checkedLists = SerieListe::whereIn('liste_id', $query->select('id'))->where('serie_id', $id)->select('liste_id')->get();
+
+            // Check which lists the series is already present in
+            $checkedLists = SerieListe::whereIn('liste_id', $query->select('id'))
+                ->where('serie_id', $id)
+                ->select('liste_id')
+                ->get();
+
             $checkedLists = $checkedLists->pluck('liste_id')->toArray();
         } else {
+            // If user is not authenticated, initialize empty lists
             $lists = [];
             $checkedLists = [];
         }
 
+        // Retrieve the user's rating for the series
         $userRating = RatingSerie::where('user_id', auth()->id())
-                        ->where('serie_id', $apiData->id)
-                        ->value('rating');
+            ->where('serie_id', $apiData->id)
+            ->value('rating');
 
         return view('series.details', compact('userRating'), ['serie' => $apiData, 'lists' => $lists, 'checkedLists' => $checkedLists, 'elementId' => $apiData->id, 'elementType' => 'serie']);
     }
 
+    /**
+     * Add or update a user's rating for a TV series.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $serieId Series ID
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addRating(Request $request, $serieId)
     {
+        // Validate the user's input for the rating
         $request->validate([
             'rating' => 'required|numeric|min:1|max:5',
         ]);
 
+        // Retrieve the authenticated user
         /** @var \App\Models\User $user */
         $user = auth()->user();
 
+        // Add or update the user's rating for the series
         $user->ratedSeries()->syncWithoutDetaching([$serieId => ['rating' => $request->input('rating')]]);
 
         return response()->json(['success' => 'Rating updated successfully.']);
     }
 
+    /**
+     * Get the average rating for a TV series.
+     *
+     * @param int $filmId Series ID
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAverageRating($filmId)
     {
         $serie = Serie::findOrFail($filmId);
 
-        // Calculez la nouvelle moyenne des évaluations pour le film
+        // Calculate the average rating for the series
         $averageRating = $serie->ratings->avg('rating');
 
         return response()->json(['averageRating' => $averageRating]);
