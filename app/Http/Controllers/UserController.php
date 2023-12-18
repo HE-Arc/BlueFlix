@@ -78,7 +78,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:8|confirmed',
-            'urlImage' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+            'urlImage' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
         ]);
 
         // Create new user
@@ -90,9 +90,14 @@ class UserController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->name = $request->input('firstname');
 
-        $imageName = time().'.userpic.'.$request->urlImage->extension();
-        $request->urlImage->move(public_path('images'), $imageName);
-        $user->urlImage = $imageName;
+        if ($request->hasFile('urlImage')) {
+            $imageName = time().'.userpic.'.$request->urlImage->extension();
+            $request->urlImage->move(public_path('images'), $imageName);
+            $user->urlImage = $imageName;
+        }
+        else {
+            $user->urlImage = "default/profil.png";
+        }
 
         $user->save();
 
@@ -111,18 +116,21 @@ class UserController extends Controller
             "nom" => "Favorite",
             "urlImage" => "https://stackoverflow.com",
             "user_id" => $user->id,
+            "deleteable" => false,
         ];
 
         $Seen = [
             "nom" => "Seen",
             "urlImage" => "https://stackoverflow.com",
             "user_id" => $user->id,
+            "deleteable" => false,
         ];
 
         $ToSee = [
             "nom" => "To see",
             "urlImage" => "https://stackoverflow.com",
             "user_id" => $user->id,
+            "deleteable" => false,
         ];
 
         Liste::create($Favorite);
