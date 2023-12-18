@@ -12,10 +12,7 @@ class ListController extends Controller
      */
     public function index()
     {
-        $lists = Liste::where('user_id', auth()->user()->id)->get();
-
-        //$lists = Liste::all();
-        return view('lists.index', ['lists' => $lists]);
+        return redirect()->route('profil', ['id' => auth()->id()]);
     }
 
     /**
@@ -36,11 +33,12 @@ class ListController extends Controller
             'urlImage' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
         ]);
 
+        //if the user has uploaded an image, save it in the public/images folder
         if ($request->hasFile('urlImage')) {
             $imageName = time().'.'.$request->user()->id.'.'.$request->urlImage->extension();
             $request->urlImage->move(public_path('images'), $imageName);
         }
-        else {
+        else { //else, use the default image
             $imageName = 'default/list.png';
         }
 
@@ -72,6 +70,7 @@ class ListController extends Controller
     {
         $list = \App\Models\Liste::findOrFail($id);
 
+        //if the user is not the owner of the list, redirect him to his profile page
         if($list->user_id != auth()->id()) {
             return redirect()->route('profil', ['id' => auth()->id()])
                 ->with('error', 'You don\'t have access to this ressource.');
@@ -92,6 +91,7 @@ class ListController extends Controller
 
         $list = \App\Models\Liste::findOrFail($id);
 
+        //if the user is not the owner of the list, redirect him to his profile page
         if($list->user_id != $request->user()->id) {
             return redirect()->route('profil', ['id' => auth()->id()])
                 ->with('error', 'You don\'t have access to this ressource.');
@@ -99,6 +99,7 @@ class ListController extends Controller
 
         $list->nom = $request->get('nom');
 
+        //if the user has uploaded an image, update it in the public/images folder
         if ($request->hasFile('urlImage')) {
             unlink(public_path('images/'.$list->urlImage));
             $imageName = time().'.'.$request->user()->id.'.'.$request->urlImage->extension();
@@ -128,12 +129,14 @@ class ListController extends Controller
 
         $list = \App\Models\Liste::findOrFail($id);
 
+        //if the user is not the owner of the list, return an error
         if($list->user_id != $request->user()->id) {
             return response()->json([
                 'error' => 'You don\'t have access to this ressource.'
             ]);
         }
 
+        //based on the element type and the isChecked value, attach or detach the element to the list
         if($elementType == 'film') {
             if($isChecked) {
                 $list->films()->attach($elementId);
@@ -164,18 +167,22 @@ class ListController extends Controller
     {
         $list = \App\Models\Liste::find($id);
 
+        //if the user is not the owner of the list, redirect him to his profile page
         if($list->user_id != auth()->id()) {
             return redirect()->route('profil', ['id' => auth()->id()])
                 ->with('error', 'You don\'t have access to this ressource.');
         }
 
+        //if the list is not deleteable, redirect the user to his profile page
         if($list->deleteable == false) {
             return redirect()->route('profil', ['id' => auth()->id()])
                 ->with('error', 'You can\'t delete this list.');
         }
 
+        //delete the image from the public/images folder
         unlink(public_path('images/'.$list->urlImage));
 
+        //detach all the elements from the list and delete the list
         $list->films()->detach();
         $list->series()->detach();
         $list->delete();
