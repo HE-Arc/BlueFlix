@@ -1,11 +1,14 @@
 @extends("layout.app")
 
 @section("content")
+
+@auth
 <div class="row mb-3">
     <div class="col-12">
         <a class="btn btn-primary" href="{{ route('profil', ['id' => auth()->id()]) }}"><i class="bi bi-arrow-return-left"></i></a>
     </div>
 </div>
+@endauth
 
 <div class="row">
     <div class="col-12">
@@ -34,13 +37,17 @@
                             <div class="col-md-10">
                                 {{ $film->nom }}
                             </div>
-                            <div class="col-md-2">
-                                <form action="{{route('lists.destroyMovie', ['listId' => $list->id, 'movieId' => $film->id])}}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                </form>
-                            </div>
+                            @auth
+                                @if ($list->user_id == auth()->id())
+                                    <div class="col-md-2">
+                                        <form action="{{route('lists.destroyMovie', ['listId' => $list->id, 'movieId' => $film->id])}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -69,13 +76,17 @@
                                     <div class="col-md-10">
                                         {{ $serie->nom }}
                                     </div>
-                                    <div class="col-md-2">
-                                        <form action="{{route('lists.destroySeries', ['listId' => $list->id, 'seriesId' => $serie->id])}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                        </form>
-                                    </div>
+                                    @auth
+                                        @if ($list->user_id == auth()->id())
+                                            <div class="col-md-2">
+                                                <form action="{{route('lists.destroySeries', ['listId' => $list->id, 'seriesId' => $serie->id])}}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    @endauth
                                 </div>
                             </div>
                         </div>
