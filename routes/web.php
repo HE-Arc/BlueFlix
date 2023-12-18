@@ -45,8 +45,12 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::get('/films/{id}', [FilmController::class, 'showFilm'])->name('films.details');
+Route::post('/films/{filmId}/add-rating', [FilmController::class, 'addRating'])->middleware('auth')->name('films.addRating');
+Route::get('/films/{filmId}/get-average-rating', [FilmController::class, 'getAverageRating']);
 
 Route::get('/series/{id}', [SerieController::class, 'showSerie'])->name('series.details');
+Route::post('/series/{serieId}/add-rating', [SerieController::class, 'addRating'])->middleware('auth')->name('series.addRating');
+Route::get('/series/{serieId}/get-average-rating', [SerieController::class, 'getAverageRating']);
 
 //Route::get('/test/film', [TestController::class, 'showFilmList'])->name('testFilm');
 //Route::get('/test/serie', [TestController::class, 'showSerieList'])->name('testSerie');

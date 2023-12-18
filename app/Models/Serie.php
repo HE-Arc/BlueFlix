@@ -19,4 +19,9 @@ class Serie extends Model
     {
         return $this->belongsToMany(Liste::class, 'serie_liste', 'serie_id', 'liste_id');
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(RatingSerie::class);
+    }
 }
