@@ -23,11 +23,14 @@
         @endif
 
         @isset($results)
-            <div class="card-container row">
-                @foreach ($results as $result)
+        <div class="card-container row">
+            @foreach ($results as $result)
+                <div class="col-md-4 mb-4">
                     @include("partials.listCard", ["cardInfo" => $result])
-                @endforeach
-            </div>
-        @endisset
+                </div>
+            @endforeach
+        </div>
+    @endisset
+
     </main>
 @endsection
