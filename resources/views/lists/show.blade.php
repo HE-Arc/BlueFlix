@@ -35,26 +35,13 @@
 
                     @php
                         $cardInfo = new stdClass();
+                        $cardInfo->type = 'film';
                         $cardInfo->title = $film->nom;
                         $cardInfo->image = $film->urlImage;
                         $cardInfo->route = route('films.details', ['id' => $film->id]);
                     @endphp
 
-                    @include('partials.card', ['cardInfo' => $cardInfo])
-
-                    @auth
-                        @if ($list->user_id == auth()->id())
-                            <div>
-                                <form action="{{route('lists.destroyMovie', ['listId' => $list->id, 'movieId' => $film->id])}}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                </form>
-                            </div>
-                        @endif
-                    @endauth
-
-
+                    @include("partials.listContentCard", ["cardInfo" => $cardInfo])
 
                 @endforeach
                 </div>
@@ -79,24 +66,13 @@
                     @foreach ($list->series as $serie)
                         @php
                             $cardInfo = new stdClass();
+                            $cardInfo->type = 'serie';
                             $cardInfo->title = $serie->nom;
                             $cardInfo->image = $serie->urlImage;
                             $cardInfo->route = route('series.details', ['id' => $serie->id]);
                         @endphp
 
-                        @include('partials.card', ['cardInfo' => $cardInfo])
-
-                        @auth
-                            @if ($list->user_id == auth()->id())
-                                <div>
-                                    <form action="{{route('lists.destroySeries', ['listId' => $list->id, 'seriesId' => $serie->id])}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                    </form>
-                                </div>
-                            @endif
-                        @endauth
+                        @include("partials.listContentCard", ["cardInfo" => $cardInfo])
 
                     @endforeach
                     </div>
