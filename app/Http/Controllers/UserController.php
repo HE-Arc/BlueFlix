@@ -17,8 +17,12 @@ class UserController extends Controller
     public function index($id)
     {
         $user = User::find($id);
-        $lists = Liste::where('user_id', $id)->get();
 
+        if($user == null) {
+            return redirect()->route('home')->with('error', 'User not found !');
+        }
+
+        $lists = Liste::where('user_id', $id)->get();
 
         $results = [];
         //title, image, route("route('lists.show', $list->id)")
@@ -30,7 +34,6 @@ class UserController extends Controller
             $newelement->route = route('lists.show', $list->id);
             array_push($results, $newelement);
         }
-
 
         return view('users.profil', compact('user'),['results' => $results]);
     }
@@ -105,7 +108,7 @@ class UserController extends Controller
 
         auth()->login($user);
 
-        return redirect()->route('home')->with('success', 'Account created successfully!');
+        return redirect()->route('profil', ['id' => auth()->id()])->with('success', 'Account created successfully!');
     }
 
     private function createDefaultList(User $user)
@@ -114,21 +117,21 @@ class UserController extends Controller
 
         $Favorite = [
             "nom" => "Favorite",
-            "urlImage" => "https://stackoverflow.com",
+            "urlImage" => "default/fav.png",
             "user_id" => $user->id,
             "deleteable" => false,
         ];
 
         $Seen = [
             "nom" => "Seen",
-            "urlImage" => "https://stackoverflow.com",
+            "urlImage" => "default/seen.png",
             "user_id" => $user->id,
             "deleteable" => false,
         ];
 
         $ToSee = [
             "nom" => "To see",
-            "urlImage" => "https://stackoverflow.com",
+            "urlImage" => "default/tosee.png",
             "user_id" => $user->id,
             "deleteable" => false,
         ];
