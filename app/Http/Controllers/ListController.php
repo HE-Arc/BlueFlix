@@ -91,7 +91,8 @@ class ListController extends Controller
 
         $list->save();
 
-        return redirect()->route('lists.index');
+        return redirect()->route('profil', ['id' => auth()->id()])
+            ->with('success', 'List updated successfully.');
     }
 
     public function ajaxUpdate(Request $request)
