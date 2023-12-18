@@ -30,7 +30,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::resource('lists', ListController::class)->except(['show'])->middleware('auth');
 Route::get('lists/{listId}', [ListController::class, 'show'])->name('lists.show'); //allow access to list.show without being logged in
 
-Route::post('lists/ajax', [ListController::class, 'ajaxUpdate'])->middleware('auth')->name('lists.ajax'); //TODO: bon verbe ?
+Route::post('lists/ajax', [ListController::class, 'ajaxUpdate'])->middleware('auth')->name('lists.ajax');
 Route::delete('lists/{listId}/movies/{movieId}', [ListController::class, 'destroyMovie'])->middleware('auth')->name('lists.destroyMovie');
 Route::delete('lists/{listId}/series/{seriesId}', [ListController::class, 'destroySeries'])->middleware('auth')->name('lists.destroySeries');
 
