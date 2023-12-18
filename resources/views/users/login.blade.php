@@ -22,6 +22,7 @@
                                 <input type="password" name="password" id="password" placeholder="Password" class="form-control" required>
                             </div>
 
+                            <!-- Display error messages if there are any validation errors -->
                             @if ($errors->any())
                                 <div class="alert alert-danger mt-3 col-12">
                                     <strong>Error!</strong> Please check your inputs.<br><br>
