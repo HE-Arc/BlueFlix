@@ -36,10 +36,11 @@
                         elementType: $('#elementType').val()
                     },
                     success: function(response) {
-                        console.log('Success AJAX'); // :', response);
+                        console.log('Success :', response);
+                        alert("List updated successfully");
                     },
                     error: function(error) {
-                        console.log('Erreur AJAX'); // :', error);
+                        console.log('Erreur :', error);
                     }
                 });
         });
