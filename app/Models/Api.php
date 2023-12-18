@@ -40,8 +40,18 @@ class Api extends Model
 
             // Upadte the film properties with the new data
             $film->title = $jsonData->title;
-            $film->release_date = $jsonData->release_date;
-            $film->image_url = $url_image . $jsonData->poster_path;
+
+            if (!empty($jsonData->release_date) && !is_null($jsonData->release_date)) {
+                $film->release_date = $jsonData->release_date;
+            } else {
+                $film->release_date = null;
+            }
+
+            if (!empty($jsonData->poster_path) && !is_null($jsonData->poster_path)) {
+                $film->image_url = $url_image . $jsonData->poster_path;
+            } else {
+                $film->image_url = asset('images/default/list.png');
+            }
 
             $film->overview = $jsonData->overview;
             $film->runtime = $jsonData->runtime;
@@ -100,8 +110,18 @@ class Api extends Model
 
             // Upadte the serie properties with the new data
             $serie->title = $jsonData->name;
-            $serie->release_date = $jsonData->first_air_date;
-            $serie->image_url = $url_image . $jsonData->poster_path;
+
+            if (!empty($jsonData->first_air_date) && !is_null($jsonData->first_air_date)) {
+                $serie->release_date = $jsonData->first_air_date;
+            } else {
+                $serie->release_date = null;
+            }
+
+            if (!empty($jsonData->poster_path) && !is_null($jsonData->poster_path)) {
+                $serie->image_url = $url_image . $jsonData->poster_path;
+            } else {
+                $serie->image_url = asset('images/default/list.png');
+            }
 
             $serie->overview = $jsonData->overview;
             $serie->runtime = $jsonData->episode_run_time[0];
@@ -165,7 +185,13 @@ class Api extends Model
                 $newfilm = new Film();
                 $newfilm->id = $film->id;
                 $newfilm->title = $film->title;
-                $newfilm->image = $url_image . $film->poster_path;
+
+                if (!empty($film->poster_path) && !is_null($film->poster_path)) {
+                    $newfilm->image = $url_image . $film->poster_path;
+                } else {
+                    $newfilm->image = asset('images/default/list.png');
+                }
+
                 $newfilm->route = route('films.details', ['id' => $film->id]);
 
                 $films[] = $newfilm;
@@ -208,7 +234,13 @@ class Api extends Model
                 $newserie = new Serie();
                 $newserie->id = $serie->id;
                 $newserie->title = $serie->name;
-                $newserie->image = $url_image . $serie->poster_path;
+
+                if (!empty($serie->poster_path) && !is_null($serie->poster_path)) {
+                    $newserie->image = $url_image . $serie->poster_path;
+                } else {
+                    $newserie->image = asset('images/default/list.png');
+                }
+
                 $newserie->route = route('series.details', ['id' => $serie->id]);
 
                 $series[] = $newserie;
@@ -245,7 +277,13 @@ class Api extends Model
                 $newfilm = new Film();
                 $newfilm->id = $film->id;
                 $newfilm->title = $film->title;
-                $newfilm->image = $url_image . $film->poster_path;
+
+                if (!empty($film->poster_path) && !is_null($film->poster_path)) {
+                    $newfilm->image = $url_image . $film->poster_path;
+                } else {
+                    $newfilm->image = asset('images/default/list.png');
+                }
+
                 $newfilm->route = route('films.details', ['id' => $film->id]);
 
                 $films[] = $newfilm;
@@ -280,7 +318,13 @@ class Api extends Model
                 $newserie = new Serie();
                 $newserie->id = $serie->id;
                 $newserie->title = $serie->name;
-                $newserie->image = $url_image . $serie->poster_path;
+
+                if (!empty($serie->poster_path) && !is_null($serie->poster_path)) {
+                    $newserie->image = $url_image . $serie->poster_path;
+                } else {
+                    $newserie->image = asset('images/default/list.png');
+                }
+
                 $newserie->route = route('series.details', ['id' => $serie->id]);
 
                 $series[] = $newserie;
