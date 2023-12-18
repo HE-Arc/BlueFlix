@@ -31,6 +31,7 @@ class UserController extends Controller
             $newelement->title = $list->nom;
             $newelement->image = asset("images/$list->urlImage");
             $newelement->id = $list->id;
+            $newelement->deleteable = $list->deleteable;
             $newelement->route = route('lists.show', $list->id);
             array_push($results, $newelement);
         }
