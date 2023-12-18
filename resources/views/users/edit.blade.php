@@ -44,7 +44,7 @@
 
                         <div class="form-group col-12">
                             <label for="lastname">Last Name</label>
-                            <input type="text" name="lastname" value="{{ old('lastname', $user->lastname) }}" class="form-control" id="lastname" placeholder="Last Name">
+                            <input type="text" name="lastname" value="{{ old('lastname', $user->name) }}" class="form-control" id="lastname" placeholder="Last Name">
                         </div>
 
                         <div class="form-group col-12">

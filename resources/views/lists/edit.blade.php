@@ -20,12 +20,11 @@
                     <div class="form-row">
                         <div class="form-group col-12">
                             <label for="inputName">Name</label>
-                            <input type="text" name="nom" value="{{old('nom', $list->nom)}}" class="form-control" id="inputName">
+                            <input type="text" name="nom" value="{{old('nom', $list->name)}}" class="form-control" id="inputName">
                         </div>
 
                         <div class="form-group col-12">
                             <label for="inputImgURL">Image</label>
-                            <!--<input type="url" name="urlImage" value="{{old('urlImage', $list->urlImage)}}" class="form-control" id="inputImgURL"-->
                             <input type="file" accept="image/png, image/jpeg" class="form-control" name="urlImage" value="{{old('urlImage')}}" id="inputImgURL"/>
                         </div>
 

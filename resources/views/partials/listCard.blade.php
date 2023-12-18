@@ -15,11 +15,11 @@
                         <!-- Button to view the user's list -->
                         <a class="btn btn-info mx-2" href="{{route('lists.show', $result->id)}}"><i class="bi bi-eye-fill"></i></a>
 
-                        <!-- Button to edit the user's list -->
-                        <a class="btn btn-primary mx-2" href="{{route('lists.edit', $result->id)}}"><i class="bi bi-pencil-fill"></i></a>
-
-                        <!-- Button to delete the user's list -->
                         @if (isset($cardInfo->deleteable) && $cardInfo->deleteable)
+                            <!-- Button to edit the user's list -->
+                            <a class="btn btn-primary mx-2" href="{{route('lists.edit', $result->id)}}"><i class="bi bi-pencil-fill"></i></a>
+
+                            <!-- Button to delete the user's list -->
                             <form action="{{route('lists.destroy', $result->id)}}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')

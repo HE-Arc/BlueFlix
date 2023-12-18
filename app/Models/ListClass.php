@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Liste extends Model
+class ListClass extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'urlImage', 'user_id', 'deleteable'];
+    protected $table = 'lists';
+
+    protected $fillable = ['name', 'image_url', 'user_id', 'deleteable'];
 
     /**
      * Define the relationship with the "User" model (assuming Liste is associated with a user).
@@ -25,7 +27,7 @@ class Liste extends Model
      */
     public function films()
     {
-        return $this->belongsToMany(Film::class, 'film_liste', 'liste_id', 'film_id');
+        return $this->belongsToMany(Film::class, 'film_list', 'list_id', 'film_id');
     }
 
     /**
@@ -33,6 +35,6 @@ class Liste extends Model
      */
     public function series()
     {
-        return $this->belongsToMany(Serie::class, 'serie_liste', 'liste_id', 'serie_id');
+        return $this->belongsToMany(Serie::class, 'serie_list', 'list_id', 'serie_id');
     }
 }

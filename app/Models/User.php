@@ -14,7 +14,6 @@ class User extends Authenticatable
 
     protected $fillable = [
         'firstname',
-        'lastname',
         'email',
         'username',
         'password',
@@ -33,9 +32,9 @@ class User extends Authenticatable
     /**
      * Define the relationship with the "Liste" model.
      */
-    public function listes(): HasMany
+    public function lists(): HasMany
     {
-        return $this->hasMany(Liste::class);
+        return $this->hasMany(ListClass::class);
     }
 
     /**

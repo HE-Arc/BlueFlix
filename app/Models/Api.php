@@ -39,9 +39,9 @@ class Api extends Model
             }
 
             // Upadte the film properties with the new data
-            $film->nom = $jsonData->title;
-            $film->date_sortie = $jsonData->release_date;
-            $film->urlImage = $url_image . $jsonData->poster_path;
+            $film->title = $jsonData->title;
+            $film->release_date = $jsonData->release_date;
+            $film->image_url = $url_image . $jsonData->poster_path;
 
             $film->overview = $jsonData->overview;
             $film->runtime = $jsonData->runtime;
@@ -99,9 +99,9 @@ class Api extends Model
             }
 
             // Upadte the serie properties with the new data
-            $serie->nom = $jsonData->name;
-            $serie->date_sortie = $jsonData->first_air_date;
-            $serie->urlImage = $url_image . $jsonData->poster_path;
+            $serie->title = $jsonData->name;
+            $serie->release_date = $jsonData->first_air_date;
+            $serie->image_url = $url_image . $jsonData->poster_path;
 
             $serie->overview = $jsonData->overview;
             $serie->runtime = $jsonData->episode_run_time[0];

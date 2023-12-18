@@ -10,16 +10,16 @@ class Film extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'date_sortie', 'overview', 'companyNames', 'genres', 'runtime', 'urlImage'];
+    protected $fillable = ['title', 'release_date', 'overview', 'companyNames', 'genres', 'runtime', 'image_url'];
 
     /**
      * Define a many-to-many relationship with the "Liste" model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function listes(): BelongsToMany
+    public function lists(): BelongsToMany
     {
-        return $this->belongsToMany(Liste::class, 'film_liste', 'film_id', 'liste_id');
+        return $this->belongsToMany(ListClass::class, 'film_liste', 'film_id', 'liste_id');
     }
 
     /**

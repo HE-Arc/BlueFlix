@@ -14,7 +14,7 @@
         @else
             @foreach ($lists as $list)
             <div>
-                <input type="checkbox" class="cbxList" value="{{$list->id}}" @checked(in_array($list->id, $checkedLists))> {{$list->nom}}
+                <input type="checkbox" class="cbxList" value="{{$list->id}}" @checked(in_array($list->id, $checkedLists))> {{$list->name}}
             </div>
             @endforeach
         @endif
@@ -38,7 +38,6 @@
                     },
                     success: function(response) {
                         console.log('Success :', response);
-                        alert("List updated successfully");
                     },
                     error: function(error) {
                         console.log('Erreur :', error);

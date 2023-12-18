@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SerieListe extends Model
+class SerieList extends Model
 {
     use HasFactory;
 
-    protected $table = 'serie_liste';
+    protected $table = 'serie_list';
 
     public function serie()
     {
         return $this->belongsTo(Serie::class, 'serie_id');
     }
 
-    public function liste()
+    public function list()
     {
-        return $this->belongsTo(Liste::class, 'liste_id');
+        return $this->belongsTo(ListClass::class, 'list_id');
     }
 }
 

@@ -36,8 +36,8 @@
                     @php
                         $cardInfo = new stdClass();
                         $cardInfo->type = 'film';
-                        $cardInfo->title = $film->nom;
-                        $cardInfo->image = $film->urlImage;
+                        $cardInfo->title = $film->title;
+                        $cardInfo->image = $film->image_url;
                         $cardInfo->route = route('films.details', ['id' => $film->id]);
                     @endphp
 
@@ -67,8 +67,8 @@
                         @php
                             $cardInfo = new stdClass();
                             $cardInfo->type = 'serie';
-                            $cardInfo->title = $serie->nom;
-                            $cardInfo->image = $serie->urlImage;
+                            $cardInfo->title = $serie->title;
+                            $cardInfo->image = $serie->image_url;
                             $cardInfo->route = route('series.details', ['id' => $serie->id]);
                         @endphp
 
