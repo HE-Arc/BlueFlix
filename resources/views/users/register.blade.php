@@ -48,6 +48,7 @@
                             <input type="file" accept="image/png, image/jpeg" class="form-control" name="urlImage" value="{{old('urlImage')}}" id="inputImgURL"/>
                         </div>
 
+                        <!-- Display error messages if there are any validation errors -->
                         @if ($errors->any())
                             <div class="alert alert-danger mt-3 col-12">
                                 <strong>Error!</strong> Please check your inputs.<br><br>
