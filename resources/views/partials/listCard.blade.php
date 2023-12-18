@@ -1,7 +1,12 @@
 <div class="col-md-3 mb-3">
     <a href="{{ $cardInfo->route }}">
         <div class="card clickable-card">
-            <img src="{{$cardInfo->image}}" class="card-img-top" alt="Image Placeholder">
+            @if (!empty($cardInfo->image))
+                <img src="{{$cardInfo->image}}" class="card-img-top" alt="Image Placeholder">
+            @else
+                <img src="{{ asset('images/default/list.png') }}" class="card-img-top" alt="Image Placeholder">
+            @endif
+
             <div class="card-body d-flex flex-column align-items-center">
                 <h5 class="card-title">{{$cardInfo->title}}</h5>
                 <!-- Display buttons for list editing if the authenticated user is viewing their own profile -->
