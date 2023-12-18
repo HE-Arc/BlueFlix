@@ -52,6 +52,7 @@
                             <input type="file" accept="image/png, image/jpeg" class="form-control" name="urlImage" value="{{old('urlImage')}}" id="inputImgURL"/>
                         </div>
 
+                        <!-- Display error messages if there are any validation errors -->
                         @if ($errors->any())
                             <div class="alert alert-danger mt-3 col-12">
                                 <strong>Error!</strong> Please check your inputs.<br><br>
@@ -63,10 +64,11 @@
                             </div>
                         @endif
 
-
-
                         <div class="buttons d-flex justify-content-between mt-3">
+                            <!-- Button to cancel modification and to return to profil page -->
                             <a class="btn btn-secondary" href="{{ route('profil', ['id' => auth()->id()]) }}">Cancel</a>
+
+                            <!-- Button to submit the form and update the user's profile -->
                             <button type="submit" class="btn btn-primary">Update Profile</button>
                         </div>
 
