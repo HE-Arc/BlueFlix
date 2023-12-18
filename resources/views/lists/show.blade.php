@@ -30,28 +30,34 @@
                     No movies in this list
                 </div>
             @else
+                <div class="accordion-body row">
                 @foreach ($list->films as $film)
-                <div class="accordion-body">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-10">
-                                {{ $film->nom }}
+
+                    @php
+                        $cardInfo = new stdClass();
+                        $cardInfo->title = $film->nom;
+                        $cardInfo->image = $film->urlImage;
+                        $cardInfo->route = route('films.details', ['id' => $film->id]);
+                    @endphp
+
+                    @include('partials.card', ['cardInfo' => $cardInfo])
+
+                    @auth
+                        @if ($list->user_id == auth()->id())
+                            <div>
+                                <form action="{{route('lists.destroyMovie', ['listId' => $list->id, 'movieId' => $film->id])}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                </form>
                             </div>
-                            @auth
-                                @if ($list->user_id == auth()->id())
-                                    <div class="col-md-2">
-                                        <form action="{{route('lists.destroyMovie', ['listId' => $list->id, 'movieId' => $film->id])}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                        </form>
-                                    </div>
-                                @endif
-                            @endauth
-                        </div>
-                    </div>
-                </div>
+                        @endif
+                    @endauth
+
+
+
                 @endforeach
+                </div>
             @endif
           </div>
         </div>
@@ -69,28 +75,31 @@
                         No series in this list
                     </div>
                 @else
+                    <div class="accordion-body row">
                     @foreach ($list->series as $serie)
-                        <div class="accordion-body">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        {{ $serie->nom }}
-                                    </div>
-                                    @auth
-                                        @if ($list->user_id == auth()->id())
-                                            <div class="col-md-2">
-                                                <form action="{{route('lists.destroySeries', ['listId' => $list->id, 'seriesId' => $serie->id])}}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-                                                </form>
-                                            </div>
-                                        @endif
-                                    @endauth
+                        @php
+                            $cardInfo = new stdClass();
+                            $cardInfo->title = $serie->nom;
+                            $cardInfo->image = $serie->urlImage;
+                            $cardInfo->route = route('series.details', ['id' => $serie->id]);
+                        @endphp
+
+                        @include('partials.card', ['cardInfo' => $cardInfo])
+
+                        @auth
+                            @if ($list->user_id == auth()->id())
+                                <div>
+                                    <form action="{{route('lists.destroySeries', ['listId' => $list->id, 'seriesId' => $serie->id])}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                    </form>
                                 </div>
-                            </div>
-                        </div>
+                            @endif
+                        @endauth
+
                     @endforeach
+                    </div>
                 @endif
             </div>
           </div>
