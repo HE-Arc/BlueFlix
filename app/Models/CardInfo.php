@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class CardInfo extends Model
 {
 
-    protected $fillable = ['title', 'image', 'route'];
+    protected $fillable = ['title', 'image', 'route', 'deleteable'];
 
 }
