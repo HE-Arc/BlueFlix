@@ -146,6 +146,11 @@ class ListController extends Controller
     {
         $list = \App\Models\Liste::find($id);
 
+        if($list->deleteable == false) {
+            return redirect()->route('profil', ['id' => auth()->id()])
+                ->with('error', 'You can\'t delete this list.');
+        }
+
         unlink(public_path('images/'.$list->urlImage));
 
         $list->films()->detach();
