@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Api;
 use App\Models\Liste;
 use App\Models\SerieListe;
+use App\Models\RatingSerie;
+use App\Models\Serie;
 
 class SerieController extends Controller
 {
@@ -22,6 +24,35 @@ class SerieController extends Controller
             $lists = [];
             $checkedLists = [];
         }
-        return view('series.details', ['serie' => $apiData, 'lists' => $lists, 'checkedLists' => $checkedLists, 'elementId' => $apiData->id, 'elementType' => 'serie']);
+
+        $userRating = RatingSerie::where('user_id', auth()->id())
+                        ->where('serie_id', $apiData->id)
+                        ->value('rating');
+
+        return view('series.details', compact('userRating'), ['serie' => $apiData, 'lists' => $lists, 'checkedLists' => $checkedLists, 'elementId' => $apiData->id, 'elementType' => 'serie']);
+    }
+
+    public function addRating(Request $request, $serieId)
+    {
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5',
+        ]);
+
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+
+        $user->ratedSeries()->syncWithoutDetaching([$serieId => ['rating' => $request->input('rating')]]);
+
+        return response()->json(['success' => 'Rating updated successfully.']);
+    }
+
+    public function getAverageRating($filmId)
+    {
+        $serie = Serie::findOrFail($filmId);
+
+        // Calculez la nouvelle moyenne des évaluations pour le film
+        $averageRating = $serie->ratings->avg('rating');
+
+        return response()->json(['averageRating' => $averageRating]);
     }
 }

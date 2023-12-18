@@ -48,5 +48,19 @@ class User extends Authenticatable
     {
         return self::where('username', 'like', "%$query%")->get();
     }
+
+    public function ratedFilms()
+    {
+        return $this->belongsToMany(Film::class, 'rating_films', 'user_id', 'film_id')
+            ->withPivot('rating')
+            ->withTimestamps();
+    }
+
+    public function ratedSeries()
+    {
+        return $this->belongsToMany(Serie::class, 'rating_series', 'user_id', 'serie_id')
+            ->withPivot('rating')
+            ->withTimestamps();
+    }
 }
 

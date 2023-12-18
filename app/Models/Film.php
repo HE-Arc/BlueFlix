@@ -19,4 +19,9 @@ class Film extends Model
     {
         return $this->belongsToMany(Liste::class, 'film_liste', 'film_id', 'liste_id');
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(RatingFilm::class);
+    }
 }
