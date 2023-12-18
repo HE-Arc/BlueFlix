@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('serie_liste', function (Blueprint $table) {
+        Schema::table('serie_list', function (Blueprint $table) {
             // Ajout des clés étrangères
-            $table->foreign('liste_id')->references('id')->on('listes')->onDelete('cascade');
+            $table->foreign('list_id')->references('id')->on('lists')->onDelete('cascade');
             $table->foreign('serie_id')->references('id')->on('series')->onDelete('cascade');
         });
     }
@@ -27,9 +27,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('serie_liste', function (Blueprint $table) {
+        Schema::table('serie_list', function (Blueprint $table) {
             // Suppression des clés étrangères
-            $table->dropForeign(['liste_id']);
+            $table->dropForeign(['list_id']);
             $table->dropForeign(['serie_id']);
         });
     }

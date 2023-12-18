@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Api;
-use App\Models\Liste;
-use App\Models\FilmListe;
+use App\Models\ListClass;
+use App\Models\FilmList;
 use App\Models\RatingFilm;
 use App\Models\Film;
 
@@ -26,12 +26,12 @@ class FilmController extends Controller
         // Check if the user is authenticated
         if (Auth::check()) {
             // Query user's lists
-            $query = Liste::where('user_id', auth()->user()->id);
-            $lists = $query->select('id', 'nom')->get();
+            $query = ListClass::where('user_id', auth()->user()->id);
+            $lists = $query->select('id', 'name')->get();
 
             // Checklists for films that are already in the user's lists
-            $checkedLists = FilmListe::whereIn('liste_id', $query->select('id'))->where('film_id', $id)->select('liste_id')->get();
-            $checkedLists = $checkedLists->pluck('liste_id')->toArray();
+            $checkedLists = FilmList::whereIn('list_id', $query->select('id'))->where('film_id', $id)->select('list_id')->get();
+            $checkedLists = $checkedLists->pluck('list_id')->toArray();
         } else {
             // User is not authenticated, initialize empty lists
             $lists = [];

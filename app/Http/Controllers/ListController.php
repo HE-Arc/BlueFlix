@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Liste;
+use App\Models\ListClass;
 use Illuminate\Http\Request;
 
 class ListController extends Controller
@@ -44,10 +44,10 @@ class ListController extends Controller
 
         // -------------------------------
         // Code by Moak on StackOverflow (https://stackoverflow.com/a/51970195)
-        $data = $request->all();
+        $data['name'] = $request->input('nom');
         $data['user_id'] = $request->user()->id;
-        $data['urlImage'] = $imageName;
-        Liste::create($data);
+        $data['image_url'] = $imageName;
+        ListClass::create($data);
         // -------------------------------
 
         return redirect()->route('profil', ['id' => auth()->id()])
@@ -59,7 +59,7 @@ class ListController extends Controller
      */
     public function show(string $id)
     {
-        $list = \App\Models\Liste::findOrFail($id);
+        $list = ListClass::findOrFail($id);
         return view('lists.show', ['list' => $list]);
     }
 
@@ -68,7 +68,7 @@ class ListController extends Controller
      */
     public function edit(string $id)
     {
-        $list = \App\Models\Liste::findOrFail($id);
+        $list = ListClass::findOrFail($id);
 
         //if the user is not the owner of the list, redirect him to his profile page
         if($list->user_id != auth()->id()) {
@@ -85,11 +85,11 @@ class ListController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'nom' => 'required|min:5|max:30',
+            'nom' => 'required|min:5',
             'urlImage' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
         ]);
 
-        $list = \App\Models\Liste::findOrFail($id);
+        $list = ListClass::findOrFail($id);
 
         //if the user is not the owner of the list, redirect him to his profile page
         if($list->user_id != $request->user()->id) {
@@ -97,14 +97,14 @@ class ListController extends Controller
                 ->with('error', 'You don\'t have access to this ressource.');
         }
 
-        $list->nom = $request->get('nom');
+        $list->name = $request->get('nom');
 
         //if the user has uploaded an image, update it in the public/images folder
         if ($request->hasFile('urlImage')) {
-            unlink(public_path('images/'.$list->urlImage));
+            unlink(public_path('images/'.$list->image_url));
             $imageName = time().'.'.$request->user()->id.'.'.$request->urlImage->extension();
             $request->urlImage->move(public_path('images'), $imageName);
-            $list->urlImage = $imageName;
+            $list->image_url = $imageName;
         }
 
         $list->save();
@@ -127,7 +127,7 @@ class ListController extends Controller
         $elementId = $validatedData['elementData'];
         $elementType = $validatedData['elementType'];
 
-        $list = \App\Models\Liste::findOrFail($id);
+        $list = ListClass::findOrFail($id);
 
         //if the user is not the owner of the list, return an error
         if($list->user_id != $request->user()->id) {
@@ -165,7 +165,7 @@ class ListController extends Controller
      */
     public function destroy(string $id)
     {
-        $list = \App\Models\Liste::find($id);
+        $list = ListClass::findOrFail($id);
 
         //if the user is not the owner of the list, redirect him to his profile page
         if($list->user_id != auth()->id()) {
@@ -180,7 +180,7 @@ class ListController extends Controller
         }
 
         //delete the image from the public/images folder
-        unlink(public_path('images/'.$list->urlImage));
+        unlink(public_path('images/'.$list->image_url));
 
         //detach all the elements from the list and delete the list
         $list->films()->detach();
@@ -193,7 +193,7 @@ class ListController extends Controller
 
     public function destroyMovie(string $id, string $movieId)
     {
-        $list = \App\Models\Liste::find($id);
+        $list = ListClass::findOrFail($id);
         $list->films()->detach($movieId);
 
         return redirect()->route('lists.show', $id)
@@ -202,7 +202,7 @@ class ListController extends Controller
 
     public function destroySeries(string $id, string $seriesId)
     {
-        $list = \App\Models\Liste::find($id);
+        $list = ListClass::findOrFail($id);
         $list->series()->detach($seriesId);
 
         return redirect()->route('lists.show', $id)

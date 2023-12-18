@@ -4,10 +4,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
-            <img alt="{{$film->nom}}" class="img-fluid" src="{{$film->urlImage}}" />
+            <img alt="{{$film->title}}" class="img-fluid" src="{{$film->image_url}}" />
         </div>
         <div class="col-md-8">
-            <h3>{{$film->nom}}</h3>
+            <h3>{{$film->title}}</h3>
 
             @auth
                 <div class="rating-form">
@@ -29,7 +29,7 @@
                 @endif
             </p>
 
-            <p>Release date : {{$film->date_sortie}}</p>
+            <p>Release date : {{$film->release_date}}</p>
 
             @if(!empty($film->overview))
                 <p>Overview : {{$film->overview}}</p>

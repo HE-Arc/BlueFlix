@@ -11,6 +11,7 @@ use App\Models\Liste;
 use Illuminate\Http\Request;
 
 use App\Models\CardInfo;
+use App\Models\ListClass;
 
 class UserController extends Controller
 {
@@ -23,7 +24,7 @@ class UserController extends Controller
     public function index($id)
     {
         // Find user by ID
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
          // Redirect to home if user not found
         if($user == null) {
@@ -31,14 +32,14 @@ class UserController extends Controller
         }
 
         // Get user's lists
-        $lists = Liste::where('user_id', $id)->get();
+        $lists = ListClass::where('user_id', $id)->get();
 
         // Transform lists into CardInfo objects for display
         $results = [];
         foreach ($lists as $list) {
             $newelement = new CardInfo();
-            $newelement->title = $list->nom;
-            $newelement->image = asset("images/$list->urlImage");
+            $newelement->title = $list->name;
+            $newelement->image = asset("images/$list->image_url");
             $newelement->id = $list->id;
             $newelement->deleteable = $list->deleteable;
             $newelement->route = route('lists.show', $list->id);
@@ -127,19 +128,18 @@ class UserController extends Controller
         // Create new user
         $user = new User();
         $user->firstname = $request->input('firstname');
-        $user->lastname = $request->input('lastname');
+        $user->name = $request->input('lastname');
         $user->email = $request->input('email');
         $user->username = $request->input('username');
         $user->password = bcrypt($request->input('password'));
-        $user->name = $request->input('firstname');
 
         if ($request->hasFile('urlImage')) {
             $imageName = time().'.userpic.'.$request->urlImage->extension();
             $request->urlImage->move(public_path('images'), $imageName);
-            $user->urlImage = $imageName;
+            $user->image_url = $imageName;
         }
         else {
-            $user->urlImage = "default/profil.png";
+            $user->image_url = "default/profil.png";
         }
 
         $user->save();
@@ -161,32 +161,32 @@ class UserController extends Controller
      */
     private function createDefaultList(User $user)
     {
-        $li = new Liste();
+        $li = new ListClass();
 
         $Favorite = [
-            "nom" => "Favorite",
-            "urlImage" => "default/fav.png",
+            "name" => "Favorite",
+            "image_url" => "default/fav.png",
             "user_id" => $user->id,
             "deleteable" => false,
         ];
 
         $Seen = [
-            "nom" => "Seen",
-            "urlImage" => "default/seen.png",
+            "name" => "Seen",
+            "image_url" => "default/seen.png",
             "user_id" => $user->id,
             "deleteable" => false,
         ];
 
         $ToSee = [
-            "nom" => "To see",
-            "urlImage" => "default/tosee.png",
+            "name" => "To see",
+            "image_url" => "default/tosee.png",
             "user_id" => $user->id,
             "deleteable" => false,
         ];
 
-        Liste::create($Favorite);
-        Liste::create($Seen);
-        Liste::create($ToSee);
+        ListClass::create($Favorite);
+        ListClass::create($Seen);
+        ListClass::create($ToSee);
     }
 
     /**
@@ -198,7 +198,7 @@ class UserController extends Controller
     public function edit($id)
     {
         // Find user by ID
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         // Redirect to home if user not found
         if (auth()->user()->id !== $user->id) {
@@ -219,7 +219,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         // Find user by ID
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         // Redirect to home if user not found
         if (auth()->user()->id !== $user->id) {
@@ -237,15 +237,15 @@ class UserController extends Controller
         ]);
 
         if ($request->hasFile('urlImage')) {
-            unlink(public_path('images/'.$user->urlImage));
+            unlink(public_path('images/'.$user->image_url));
             $imageName = time().'.userpic.'.$request->urlImage->extension();
             $request->urlImage->move(public_path('images'), $imageName);
-            $user->update(['urlImage' => $imageName]);
+            $user->update(['image_url' => $imageName]);
         }
 
         $user->update([
             'firstname' => $request->input('firstname'),
-            'lastname' => $request->input('lastname'),
+            'name' => $request->input('lastname'),
             'email' => $request->input('email'),
             'username' => $request->input('username'),
         ]);

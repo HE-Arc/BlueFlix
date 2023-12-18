@@ -25,7 +25,6 @@
 
                         <div class="form-group col-12">
                             <label for="inputImgURL">Image</label>
-                            <!--<input type="url" name="urlImage" value="{{old('urlImage')}}" class="form-control" id="inputImgURL">-->
                             <input type="file" accept="image/png, image/jpeg" class="form-control" name="urlImage" value="{{old('urlImage')}}" id="inputImgURL"/>
                         </div>
 

@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FilmListe extends Model
+class FilmList extends Model
 {
     use HasFactory;
 
-    protected $table = 'film_liste';
+    protected $table = 'film_list';
 
     public function film()
     {
         return $this->belongsTo(Film::class, 'film_id');
     }
 
-    public function liste()
+    public function list()
     {
-        return $this->belongsTo(Liste::class, 'liste_id');
+        return $this->belongsTo(ListClass::class, 'list_id');
     }
 }
 

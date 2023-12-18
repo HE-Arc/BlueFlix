@@ -10,16 +10,16 @@ class Serie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'date_sortie', 'overview', 'companyNames', 'genres', 'runtime', 'number_of_seasons', 'number_of_episodes', 'urlImage'];
+    protected $fillable = ['title', 'release_date', 'overview', 'companyNames', 'genres', 'runtime', 'number_of_seasons', 'number_of_episodes', 'image_url'];
 
     /**
      * Define a many-to-many relationship with the "Liste" model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function listes(): BelongsToMany
+    public function lists(): BelongsToMany
     {
-        return $this->belongsToMany(Liste::class, 'serie_liste', 'serie_id', 'liste_id');
+        return $this->belongsToMany(ListClass::class, 'serie_list', 'serie_id', 'liste_id');
     }
 
     /**

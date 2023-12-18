@@ -37,7 +37,7 @@ class SearchController extends Controller
                 foreach ($users as $user) {
                     $cardInfo = new CardInfo();
                     $cardInfo->title = $user->username;
-                    $cardInfo->image = $user->urlImage;
+                    $cardInfo->image = asset("images/$user->image_url");
                     $cardInfo->route = route('profil', ['id' => $user->id]);
 
                     $res[] = $cardInfo;

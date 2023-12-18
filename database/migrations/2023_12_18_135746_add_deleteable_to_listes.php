@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('listes', function (Blueprint $table) {
+        Schema::table('lists', function (Blueprint $table) {
             $table->boolean('deleteable')->default(true);
         });
     }
@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('listes', function (Blueprint $table) {
+        Schema::table('lists', function (Blueprint $table) {
             $table->dropColumn('deleteable');
         });
     }

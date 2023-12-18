@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('firstname');
-            $table->string('lastname');
-            $table->string('urlImage')->nullable();
+            $table->string('image_url')->nullable();
             $table->string('username')->unique();
         });
     }
@@ -26,8 +25,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('firstname');
-            $table->dropColumn('lastname');
-            $table->dropColumn('urlImage');
+            $table->dropColumn('image_url');
             $table->dropColumn('username');
         });
     }
