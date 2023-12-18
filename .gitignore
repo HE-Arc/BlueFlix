@@ -19,5 +19,6 @@ yarn-error.log
 /.vscode
 app/Http/Controllers/TestController.php
 resources/views/test.blade.php
-public/images/
+public/images/*
+!public/images/*/
 
