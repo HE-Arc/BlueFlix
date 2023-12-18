@@ -11,9 +11,10 @@
     <div class="row">
         <div class="col-12 col-lg-6 offset-0 offset-lg-3">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     Edit Profile
                 </div>
+
                 <div class="card-body">
                     <div class="form-row">
                         <div class="form-group col-12">
@@ -62,7 +63,12 @@
                             </div>
                         @endif
 
-                        <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
+
+
+                        <div class="buttons d-flex justify-content-between mt-3">
+                            <a class="btn btn-secondary" href="{{ route('profil', ['id' => auth()->id()]) }}">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </div>
                     </div>
                 </div>
             </div>
