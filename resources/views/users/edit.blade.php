@@ -69,6 +69,7 @@
                             <a class="btn btn-secondary" href="{{ route('profil', ['id' => auth()->id()]) }}">Cancel</a>
                             <button type="submit" class="btn btn-primary">Update Profile</button>
                         </div>
+
                     </div>
                 </div>
             </div>
