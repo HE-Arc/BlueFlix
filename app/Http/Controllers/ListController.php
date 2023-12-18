@@ -33,11 +33,16 @@ class ListController extends Controller
     {
         $request->validate([
             'nom' => 'required|min:5|max:30',
-            'urlImage' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+            'urlImage' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
         ]);
 
-        $imageName = time().'.'.$request->user()->id.'.'.$request->urlImage->extension();
-        $request->urlImage->move(public_path('images'), $imageName);
+        if ($request->hasFile('urlImage')) {
+            $imageName = time().'.'.$request->user()->id.'.'.$request->urlImage->extension();
+            $request->urlImage->move(public_path('images'), $imageName);
+        }
+        else {
+            $imageName = 'default/list.png';
+        }
 
         // -------------------------------
         // Code by Moak on StackOverflow (https://stackoverflow.com/a/51970195)
@@ -66,6 +71,12 @@ class ListController extends Controller
     public function edit(string $id)
     {
         $list = \App\Models\Liste::findOrFail($id);
+
+        if($list->user_id != auth()->id()) {
+            return redirect()->route('profil', ['id' => auth()->id()])
+                ->with('error', 'You don\'t have access to this ressource.');
+        }
+
         return view('lists.edit', ['list' => $list]);
     }
 
@@ -80,6 +91,12 @@ class ListController extends Controller
         ]);
 
         $list = \App\Models\Liste::findOrFail($id);
+
+        if($list->user_id != $request->user()->id) {
+            return redirect()->route('profil', ['id' => auth()->id()])
+                ->with('error', 'You don\'t have access to this ressource.');
+        }
+
         $list->nom = $request->get('nom');
 
         if ($request->hasFile('urlImage')) {
@@ -113,7 +130,7 @@ class ListController extends Controller
 
         if($list->user_id != $request->user()->id) {
             return response()->json([
-                'error' => $request->user()->id
+                'error' => 'You don\'t have access to this ressource.'
             ]);
         }
 
@@ -147,6 +164,11 @@ class ListController extends Controller
     {
         $list = \App\Models\Liste::find($id);
 
+        if($list->user_id != auth()->id()) {
+            return redirect()->route('profil', ['id' => auth()->id()])
+                ->with('error', 'You don\'t have access to this ressource.');
+        }
+
         if($list->deleteable == false) {
             return redirect()->route('profil', ['id' => auth()->id()])
                 ->with('error', 'You can\'t delete this list.');
@@ -158,8 +180,6 @@ class ListController extends Controller
         $list->series()->detach();
         $list->delete();
 
-        /*return redirect()->route('lists.index')
-            ->with('success','List deleted successfully');*/
         return redirect()->route('profil', ['id' => auth()->id()])
             ->with('success', 'List deleted successfully.');
     }
