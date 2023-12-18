@@ -22,10 +22,11 @@
 </div>
 
 <script>
+    //Ajax call to update asynchroneously the lists
     $(document).ready(function() {
         $('.cbxList').change(function() {
             var data = $(this);
-            var checked = data.is(":checked") == true ? 1 : 0; //needed to convert boolean to 1 or 0 because laravel validation doesn't work with "true" or "false"
+            var checked = data.is(":checked") == true ? 1 : 0; //needed to convert boolean to 1 or 0 because laravel validation doesn't work with "true" or "false" for boolean but with 1 or 0
             $.ajax({
                     url: '/lists/ajax',
                     type: 'POST',
