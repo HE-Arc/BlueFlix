@@ -39,7 +39,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Rechercher tous les utilisateurs qui contiennent une certaine requête.
+     * Find all users that contain a certain query.
      *
      * @param string $query
      * @return \Illuminate\Database\Eloquent\Collection
