@@ -1,6 +1,6 @@
 <div class="col-md-3 mb-3">
     <a href="{{ $cardInfo->route }}">
-        <div class="card clickable-card" style="width: 18rem;">
+        <div class="card clickable-card">
             <img src="{{$cardInfo->image}}" class="card-img-top" alt="Image Placeholder">
             <div class="card-body d-flex flex-column align-items-center">
                 <h5 class="card-title">{{$cardInfo->title}}</h5>

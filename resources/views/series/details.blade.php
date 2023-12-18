@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
-            <img alt="{{$serie->nom}}" class="img-fluid h-100" src="{{$serie->urlImage}}" />
+            <img alt="{{$serie->nom}}" class="img-fluid" src="{{$serie->urlImage}}" />
         </div>
         <div class="col-md-8">
             <h3>{{$serie->nom}}</h3>
