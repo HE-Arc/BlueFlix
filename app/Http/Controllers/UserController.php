@@ -96,16 +96,19 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
+        // Determine if the input is an email or a username
+        $loginType = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
         // Attempt to log the user in
-        if (Auth::attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
+        if (Auth::attempt([$loginType => $request->input('username'), 'password' => $request->input('password')])) {
             // Redirect to user profile if login successful
             return redirect()->route('profil', ['id' => auth()->id()])->with('success', 'You are logged in.');
-
         } else {
             // Redirect to login page with error message if login failed
-            return redirect()->route('login')->withErrors(['loginError' => 'Username or password is incorrect.'])->withInput();
+            return redirect()->route('login')->withErrors(['loginError' => 'Username, email or password is incorrect.'])->withInput();
         }
     }
+
 
     /**
      * Validate and process user registration.

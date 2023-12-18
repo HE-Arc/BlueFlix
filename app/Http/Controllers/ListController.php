@@ -71,7 +71,7 @@ class ListController extends Controller
         $list = ListClass::findOrFail($id);
 
         //if the user is not the owner of the list, redirect him to his profile page
-        if($list->user_id != auth()->id()) {
+        if($list->user_id != auth()->id() || $list->deleteable == false) {
             return redirect()->route('profil', ['id' => auth()->id()])
                 ->with('error', 'You don\'t have access to this ressource.');
         }
@@ -92,7 +92,7 @@ class ListController extends Controller
         $list = ListClass::findOrFail($id);
 
         //if the user is not the owner of the list, redirect him to his profile page
-        if($list->user_id != $request->user()->id) {
+        if($list->user_id != $request->user()->id || $list->deleteable == false) {
             return redirect()->route('profil', ['id' => auth()->id()])
                 ->with('error', 'You don\'t have access to this ressource.');
         }
@@ -168,7 +168,7 @@ class ListController extends Controller
         $list = ListClass::findOrFail($id);
 
         //if the user is not the owner of the list, redirect him to his profile page
-        if($list->user_id != auth()->id()) {
+        if($list->user_id != auth()->id() || $list->deleteable == false) {
             return redirect()->route('profil', ['id' => auth()->id()])
                 ->with('error', 'You don\'t have access to this ressource.');
         }

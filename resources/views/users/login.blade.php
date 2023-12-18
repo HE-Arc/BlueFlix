@@ -15,7 +15,7 @@
                         <div class="form-row">
                             <div class="form-group col-12">
                                 <label for="username">Username or email</label>
-                                <input type="text" name="username" id="username" placeholder="Username or email" class="form-control" required>
+                                <input type="text" name="username" id="username" placeholder="Username or email" class="form-control" value="{{ old('username') }}"required>
                             </div>
                             <div class="form-group col-12">
                                 <label for="password">Password</label>
