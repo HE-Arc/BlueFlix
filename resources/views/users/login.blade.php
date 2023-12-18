@@ -34,6 +34,8 @@
                             @endif
 
                             <button type="submit" name="login" class="btn btn-primary mt-3">Login</button>
+
+                            <p class="mt-3">Don't have an account? <a href="{{ route('register') }}">Register</a></p>
                         </div>
                     </div>
                 </div>
