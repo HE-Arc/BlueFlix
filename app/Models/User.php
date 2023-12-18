@@ -49,6 +49,11 @@ class User extends Authenticatable
         return self::where('username', 'like', "%$query%")->get();
     }
 
+    /**
+     * Get the films that the user has rated, including the ratings.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function ratedFilms()
     {
         return $this->belongsToMany(Film::class, 'rating_films', 'user_id', 'film_id')
@@ -56,6 +61,11 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    /**
+     * Get the series that the user has rated, including the ratings.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function ratedSeries()
     {
         return $this->belongsToMany(Serie::class, 'rating_series', 'user_id', 'serie_id')
