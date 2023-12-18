@@ -60,6 +60,8 @@
                         @endif
 
                         <button type="submit" class="btn btn-primary mt-3">Create</button>
+
+                        <p class="mt-3">Already have an account? <a href="{{ route('login') }}">Login</a></p>
                     </div>
                 </div>
             </div>
