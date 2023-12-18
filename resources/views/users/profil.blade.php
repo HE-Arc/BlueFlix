@@ -7,7 +7,7 @@
             <div class="profilContainer p-4 mb-4" style="background-color: #f8f9fa;">
                 <div class="row">
                     <div class="col-md-4">
-                        <img src="{{ asset("images/$user->urlImage") }}" alt="Image Placeholder" class="img-fluid">
+                        <img src="{{ asset("images/$user->urlImage") }}" alt="Image Placeholder" style="max-height: 15rem; max-width: 15rem;" class="img-fluid">
                     </div>
                     <div class="col-md-8">
                         <p>Username: {{ $user->username }}</p>
