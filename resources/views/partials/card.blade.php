@@ -1,6 +1,6 @@
 <div class="col-md-3 mb-3">
     <a href="{{ $cardInfo->route }}">
-        <div class="card clickable-card" style="width: 18rem;">
+        <div class="card clickable-card">
             @if (!empty($cardInfo->image))
                 <img src="{{$cardInfo->image}}" class="card-img-top" alt="Card Image">
             @else
