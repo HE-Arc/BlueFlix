@@ -51,7 +51,3 @@ Route::get('/films/{filmId}/get-average-rating', [FilmController::class, 'getAve
 Route::get('/series/{id}', [SerieController::class, 'showSerie'])->name('series.details');
 Route::post('/series/{serieId}/add-rating', [SerieController::class, 'addRating'])->middleware('auth')->name('series.addRating');
 Route::get('/series/{serieId}/get-average-rating', [SerieController::class, 'getAverageRating']);
-
-//Route::get('/test/film', [TestController::class, 'showFilmList'])->name('testFilm');
-//Route::get('/test/serie', [TestController::class, 'showSerieList'])->name('testSerie');
-

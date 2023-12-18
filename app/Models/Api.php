@@ -10,6 +10,12 @@ class Api extends Model
 {
     use HasFactory;
 
+    /**
+     * Get details of a film from the external API and update the database.
+     *
+     * @param int $id Film ID
+     * @return \App\Models\Film|null
+     */
     public static function getFilmDetails($id)
     {
         $apiKey = env('API_KEY');
@@ -27,12 +33,12 @@ class Api extends Model
             $film = Film::where('id', $jsonData->id)->first();
 
             if ($film === null) {
-                // Si le film n'existe pas, ajoutez-le à la base de données
+                // If the film does not exist, add it to the database
                 $film = new Film();
                 $film->id = $jsonData->id;
             }
 
-            // Mettez à jour les propriétés du film avec les nouvelles données
+            // Upadte the film properties with the new data
             $film->nom = $jsonData->title;
             $film->date_sortie = $jsonData->release_date;
             $film->urlImage = $url_image . $jsonData->poster_path;
@@ -64,6 +70,12 @@ class Api extends Model
         return null;
     }
 
+    /**
+     * Get details of a TV series from the external API and update the database.
+     *
+     * @param int $id Series ID
+     * @return \App\Models\Serie|null
+     */
     public static function getSerieDetails($id)
     {
         $apiKey = env('API_KEY');
@@ -81,12 +93,12 @@ class Api extends Model
             $serie = Serie::where('id', $jsonData->id)->first();
 
             if ($serie === null) {
-                // Si la serie n'existe pas, ajoutez-le à la base de données
+                // if the serie does not exist, add it to the database
                 $serie = new Serie();
                 $serie->id = $jsonData->id;
             }
 
-            // Mettez à jour les propriétés du film avec les nouvelles données
+            // Upadte the serie properties with the new data
             $serie->nom = $jsonData->name;
             $serie->date_sortie = $jsonData->first_air_date;
             $serie->urlImage = $url_image . $jsonData->poster_path;
@@ -122,6 +134,13 @@ class Api extends Model
         return null;
     }
 
+    /**
+     * Get a list of films based on the search query from the external API.
+     *
+     * @param string $query Search query
+     * @param int $page Page number
+     * @return array|null
+     */
     public static function getFilmsList($query, $page = 1)
     {
         if ($query === null) {
@@ -158,6 +177,13 @@ class Api extends Model
         return null;
     }
 
+    /**
+     * Get a list of TV series based on the search query from the external API.
+     *
+     * @param string $query Search query
+     * @param int $page Page number
+     * @return array|null
+     */
     public static function getSeriesList($query, $page = 1)
     {
         if ($query === null) {
@@ -194,6 +220,11 @@ class Api extends Model
         return null;
     }
 
+    /**
+     * Get a list of discover films from the external API.
+     *
+     * @return array|null
+     */
     public static function getDiscoverFilms()
     {
         $apiKey = env('API_KEY');
@@ -224,6 +255,11 @@ class Api extends Model
         }
     }
 
+    /**
+     * Get a list of discover TV series from the external API.
+     *
+     * @return array|null
+     */
     public static function getDiscoverSeries()
     {
         $apiKey = env('API_KEY');

@@ -20,22 +20,22 @@
     <div class="row">
         <div class="col-md-12">
             <h2>Films à la une</h2>
-            <!-- Passer la variable $filmsList au composant CardSlider -->
+            <!-- Pass the variable $filmsList to the CardSlider component -->
             <x-card-slider :list="$filmsList" />
         </div>
     </div>
 
-    <div class="mt-4"></div> <!-- Ajoute un espace de 4 unités (peut être ajusté) -->
+    <div class="mt-4"></div>
 
     <div class="row">
         <div class="col-md-12">
             <h2>Séries à la une</h2>
-            <!-- Passer la variable $seriesList au composant CardSlider -->
+            <!-- Pass the variable $seriesList to the CardSlider component -->
             <x-card-slider :list="$seriesList" />
         </div>
     </div>
 
-    <div class="mt-4"></div> <!-- Ajoute un espace de 4 unités (peut être ajusté) -->
+    <div class="mt-4"></div>
 
 
 </div>
