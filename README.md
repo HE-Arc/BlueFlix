@@ -1,3 +1,5 @@
+This project has been archived
+
 # BlueFlix
 A website using TMDB's API to retrieve movies. This document provides a guide on how to set up and initialize the project on your local machine. Ensure you follow the steps outlined below to have a working development environment.
 
